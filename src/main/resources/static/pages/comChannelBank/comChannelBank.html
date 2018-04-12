@@ -1,0 +1,228 @@
+<!-- 页面头部 -->
+<style>
+	.checkDate {
+		margin-left: -13px;
+	}
+</style>
+<section class="content-header">
+	<h1>
+		支付通道银行管理
+  </h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i>支付通道管理</a>
+		</li>
+		<li class="active">支付通道银行管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">支付通道银行列表</h3>
+
+					<div class="box-tools">
+						<button id="addFormConfig" class="btn btn-primary btn-sm">
+	              			<i class="fa fa-plus"></i> 支付通道银行信息管理
+	            		</button>
+					</div>
+					<form id="searchForm" name="searchForm" class="form-horizontal" style="margin-top: 5px" role="form">
+						<div class="form-group">
+							<label class="col-sm-1 control-label">支付通道名称:</label>
+							<div class="col-sm-2">
+								<select name="channelNo" id="search_channelNo" class="form-control">
+									<!--<option value="">全部</option>-->
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">支付通道银行:</label>
+							<div class="col-sm-2">
+								<select name="standardCode" id="search_channelbankCode" class="form-control">
+									<option value="" selected="selected">全部</option>
+								</select>
+							</div>
+							<button class="btn btn-primary btn-sm" id="btn_search">查询</button>
+						</div>
+					</form>
+					<!-- Grid内容体 -->
+					<div>
+						<!-- 主体数据表格 -->
+						<table id="formTable" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th>序号</th>
+									<th>支付通道编号</th>
+									<th>支付通道名称</th>
+									<th>支付通道银行代码</th>
+									<th>支付通道银行</th>
+									<th>单笔限额(元)</th>
+									<th>日限额(元)</th>
+									<th>月限额(元)</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+</section>
+
+<!-- 新建渠道银行信息弹窗 -->
+<div id="addFormModal" class="modal fade addModify" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+         		 <span aria-hidden="true">&times;</span>
+        		</button>
+				<h4 class="modal-title">新增支付通道配置银行信息</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="addFormForm" name="addFormForm" method="post">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>支付通道</label>
+								<select class="form-control" name="channelNo" id="add_channelNo">
+									<!--<option value="" selected>请选择</option>-->
+								</select>
+								<!--<span id="add_channelNo_err" style="color:red;"></span>-->
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>支付通道银行代码</label>
+								<input name="channelbankCode" id="add_channelbankCode" type="text" class="form-control input-sm" placeholder="请输入支付通道银行代码" maxlength="32" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" required>
+								<span id="add_channelbankCode_err" style="color:red;"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<label>银行名称:</label>
+							<div class="form-group">
+								<select name="channelbankName" id="add_channelbankName" class="form-control">
+								</select>
+							</div>	
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>单笔限额</label>
+								<input name="singleQuota" id="add_singleQuota" type="text" class="form-control input-sm" placeholder="请输入单笔限额" maxlength="16" onkeyup="value=value.replace(/[^\d.]/g,'')" required>
+								<span id="add_singleQuota_err" style="color:red;"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>日限额</label>
+								<input name="dailyLimit" id="add_dailyLimit" type="text" class="form-control input-sm" placeholder="请输入日限额" maxlength="16" onkeyup="value=value.replace(/[^\d.]/g,'')" required>
+								<span id="add_dailyLimit_err" style="color:red;"></span>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>月限额</label>
+								<input name="monthlyLimit" id="add_monthlyLimit" type="text" class="form-control input-sm" placeholder="请输入月限额" maxlength="16" onkeyup="value=value.replace(/[^\d.]/g,'')" required>
+								<span id="add_monthlyLimit_err" style="color:red;"></span>
+							</div>
+						</div>
+					</div>
+					<input name="systemOid" type="hidden">
+					<input id="add_channelName" name="channelName" type="hidden" />
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doAddForm" type="button" class="btn btn-primary btn-submit doAddForm">提 交</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 修改银行信息弹窗 -->
+<div id="attModify" class="modal fade addModify" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">修改支付通道配置银行信息</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="formModify" name="formModify" method="post">
+					<input type="text" id="oid_" name="oid" hidden>
+					<div class="form-group">
+						<label>支付通道编号</label>
+						<input name="channelNo" id="update_channelNo" type="text" class="form-control input-sm" readonly="readonly">
+					</div>
+					<div class="form-group">
+						<label>支付通道名称</label>
+						<input name="channelName" id="update_channelName" type="text" class="form-control input-sm" readonly="readonly">
+					</div>
+					<div class="form-group">
+						<label>支付通道银行代码</label>
+						<input name="channelbankCode" id="update_channelbankCode" type="text" class="form-control input-sm" placeholder="支付通道银行代码" maxlength="32" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" required>
+						<span id="update_channelbankCode_err" style="color:red;"></span>
+					</div>
+					<div class="form-group">
+						<label>银行名称</label>
+						<select name="channelbankName" id="update_channelbankName" class="form-control">
+						</select>
+						<!--<input name="channelbankName" id="update_channelbankName" type="text" class="form-control input-sm" placeholder="请输入开户行类别" required>-->
+						<span id="update_channelbankName_err" style="color:red;"></span></div>
+					<div class="form-group">
+						<label>单笔限额</label>
+						<input name="singleQuota" id="update_singleQuota" type="text" class="form-control input-sm" onkeyup="value=value.replace(/[^\d.]/g,'')" maxlength="16" placeholder="单笔限额" required>
+						<span id="update_singleQuota_err" style="color:red;"></span>
+					</div>
+					<div class="form-group">
+						<label>日限额</label>
+						<input name="dailyLimit" id="update_dailyLimit" type="text" class="form-control input-sm" onkeyup="value=value.replace(/[^\d.]/g,'')" maxlength="16" placeholder="日限额" required>
+						<span id="update_dailyLimit_err" style="color:red;"></span>
+					</div>
+					<div class="form-group">
+						<label>月限额</label>
+						<input name="monthlyLimit" id="update_monthlyLimit" type="text" class="form-control input-sm" onkeyup="value=value.replace(/[^\d.]/g,'')" maxlength="16" placeholder="月限额" required>
+						<span id="update_monthlyLimit_err" style="color:red;"></span>
+					</div>
+					<input name="systemOid" type="hidden">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="btUpdate" type="button" class="btn btn-primary btn-submit btUpdate">提 交</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title"></h3>
+	<div class="popover-content">
+		<p></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit" id="tips_cancle">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>

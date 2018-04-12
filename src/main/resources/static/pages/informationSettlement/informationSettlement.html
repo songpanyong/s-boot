@@ -1,0 +1,233 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>银行账户维护</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i>银行账户管理</a>
+		</li>
+		<li class="active">银行账户维护</li>
+	</ol>
+</section>
+
+<section class="content">
+	<div class="row">
+
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<div class="box-header">
+					<div class="box-tools">
+					</div>
+				</div>
+				<!-- Grid头部 -->
+				<div class="box-header with-border">
+					<form class="form-horizontal" style="margin-top: 5px" id="settlement_search_information" role="form" name="settlement_search_information">
+						<div class="form-group">
+							<label class="col-sm-1 control-label">银行户名:</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" name="bankAccountName" id="information_bankAccountName">
+							</div>
+							<label class="col-sm-1 control-label">账户类型:</label>
+							<div class="col-sm-2">
+								<select name="accountType" id="information_accountType" class="form-control">
+									<option value="">全部</option>
+									<option value="01">基本户</option>
+									<option value="02">一般户</option>
+									<option value="03">收入户</option>
+									<option value="04">支出户</option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">账户状态:</label>
+							<div class="col-sm-2">
+								<select name="accountStatus" id="information_accountStatus" class="form-control">
+									<option value="">全部</option>
+									<option value="0">可用</option>
+									<option value="1">已禁用</option>
+									<option value="2">待审核</option>
+									<option value="3">待提交</option>
+								</select>
+							</div>
+
+							<button class="btn btn-default" id="information_search">搜索</button>
+							<button class="btn btn-default" id="information_reset">清空</button>
+						</div>
+					</form>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<button class="btn btn-default" id="information_add">新增</button>
+					<table id="settlement_page_information" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>银行帐号</th>
+								<th>银行户名</th>
+								<th>开户行类别</th>
+								<th>开户行全名</th>
+								<th>开户行地址</th>
+								<th>开户行省</th>
+								<th>开户行市</th>
+								<th>账户类型</th>
+								<th>开户状态</th>
+								<th>创建时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 新建银行账户弹窗 -->
+<div id="addInformationModal" class="modal fade addModify" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+				<h4 class="modal-title">账户新增</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="addInformationForm" name="addInformationForm" method="post">
+					<div class="form-group">
+						<label>银行帐号</label>
+						<input name="bankAccount" id="add_bankAccount" type="text" class="form-control input-sm" placeholder="请输入银行帐号" required>
+						<span id="add_bankAccount_err" style="color:red;"></span>
+					</div>
+					<div class="form-group">
+						<label>银行户名</label>
+						<input name="bankAccountName" id="add_bankAccountName" type="text" class="form-control input-sm" placeholder="请输入银行户名" required>
+						<span id="add_bankAccountName_err" style="color:red;"></span>
+					</div>
+					<div class="form-group">
+						<label>开户行类别</label>
+						<input name="bankAccontClass" id="add_bankAccountClass" type="text" class="form-control input-sm" placeholder="请输入开户行类别" required>
+						<span id="add_bankAccountClass_err" style="color:red;"></span>
+					</div>
+					<div class="form-group">
+						<label>开户行全名</label>
+						<input name="accountFullName" id="add_accountFullName" type="text" class="form-control input-sm" placeholder="请输入开户行全名" required>
+						<span id="add_accountFullName_err" style="color:red;"></span>
+					</div>
+					<div class="form-group">
+						<label>开户行地址</label>
+						<input name="bankAddress" id="add_bankAddress" type="text" class="form-control input-sm" placeholder="请输入开户行地址" required>
+						<span id="add_bankAddress_err" style="color:red;"></span>
+					</div>
+					<div class="form-group">
+						<label>开户行省</label>
+						<input name="openAccountProvince" id="add_openAccountProvince" type="text" class="form-control input-sm" placeholder="请输入开户行省" required>
+						<span id="add_openAccountProvince_err" style="color:red;"></span>
+					</div>
+					<div class="form-group">
+						<label>开户行市</label>
+						<input name="openAccountCity" id="add_openAccountCity" type="text" class="form-control input-sm" placeholder="请输入开户行市" required>
+						<span id="add_openAccountCity_err" style="color:red;"></span>
+					</div>
+					<div class="form-group">
+						<label>账户类型</label>
+						<select name="accountType" id="accountType" class="form-control">
+							<option value="01">基本户</option>
+							<option value="02" selected="selected">一般户</option>
+							<option value="03">收入户</option>
+							<option value="04">支出户</option>
+						</select>
+					</div>
+					<input name="systemOid" type="hidden">
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="doAddInformation" type="button" class="btn btn-primary btn-submit addInformationSubmit">提 交</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 修改银行账户弹窗 -->
+<div class="modal fade attModify" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="updateInformationModal" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">银行账户信息修改</h4>
+				<div class="modal-body">
+					<form class="form-horizontal" role="form" id="upateInformationForm" name="upateInformationForm">
+						<div class="form-group">
+							<input name="oid" id="oid" type="hidden" />
+						</div>
+						<div class="form-group">
+							<label>银行帐号</label>
+							<input name="bankAccount" id="update_bankAccount" type="text" class="form-control input-sm" placeholder="请输入银行帐号" required>
+							<span id="update_bankAccount_err" style="color:red;"></span>
+						</div>
+						<div class="form-group">
+							<label>银行户名</label>
+							<input name="bankAccountName" id="update_bankAccountName" type="text" class="form-control input-sm" placeholder="请输入银行户名" required>
+							<span id="update_bankAccountName_err" style="color:red;"></span>
+						</div>
+						<div class="form-group">
+							<label>开户行类别</label>
+							<input name="bankAccontClass" id="update_bankAccontClass" type="text" class="form-control input-sm" placeholder="请输入开户行类别" required>
+							<span id="update_bankAccontClass_err" style="color:red;"></span>
+						</div>
+						<div class="form-group">
+							<label>开户行全名</label>
+							<input name="accountFullName" id="update_accountFullName" type="text" class="form-control input-sm" placeholder="请输入开户行全名" required>
+							<span id="update_accountFullName_err" style="color:red;"></span>
+						</div>
+						<div class="form-group">
+							<label>开户行地址</label>
+							<input name="bankAddress" id="update_bankAddress" type="text" class="form-control input-sm" placeholder="请输入开户行地址" required>
+							<span id="update_bankAddress_err" style="color:red;"></span>
+						</div>
+						<div class="form-group">
+							<label>开户行省</label>
+							<input name="openAccountProvince" id="update_openAccountProvince" type="text" class="form-control input-sm" placeholder="请输入开户行省" required>
+							<span id="update_openAccountProvince_err" style="color:red;"></span>
+						</div>
+						<div class="form-group">
+							<label>开户行市</label>
+							<input name="openAccountCity" id="update_openAccountCity" type="text" class="form-control input-sm" placeholder="请输入开户行市" required>
+							<span id="update_openAccountCity_err" style="color:red;"></span>
+						</div>
+						<div class="form-group">
+							<input name="accountType" type="hidden">
+							<input name="accountStatus" type="hidden">
+							<input name="systemOid" type="hidden">
+						</div>
+					</form>
+					<!-- 模态窗底部 -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+						<button id="doUpdateInformation" type="button" class="btn btn-primary btn-submit updateInformationSubmit">保 存</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p>确定审批？</p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>

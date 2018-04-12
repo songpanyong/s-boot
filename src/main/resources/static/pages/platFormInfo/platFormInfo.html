@@ -1,0 +1,581 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>平台信息管理</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 平台管理</a></li>
+		<li class="active">平台信息管理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">平台信息</h3>
+					<div class="box-tools">
+						<button id="changePlatform" class="btn btn-primary btn-sm">
+							<i class="fa fa-exchange"></i> 切换平台
+						</button>
+						<button id="editPlatform" class="btn btn-primary btn-sm" style="display: none;">
+							<i class="fa fa-edit"></i> 编辑平台信息
+						</button>
+						<button id="changeDetial" class="btn btn-primary btn-sm" style="display: none;">
+							<i class="fa fa-search"></i> 查看变更
+						</button>
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 统计数据 -->
+					<form id="detailForm" name="detailForm" method="post">
+						<div class="row">
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>平台名称：</dt>
+									<dd>
+										<div data-detail-fetch="platformName"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>平台状态：</dt>
+									<dd>
+										<div data-detail-fetch="platformStatus"></div>
+									</dd>
+								</dl>
+							</div>
+
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>已启用账户：</dt>
+									<dd id="openList">
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>已停用账户：</dt>
+									<dd id="closeList">
+									</dd>
+								</dl>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="box-header">
+					<h3 id="bindCardTitle" class="box-title" style="display: none;">绑定银行账户</h3>
+					<div class="box-tools">
+						<button id="changeCard" class="btn btn-primary btn-sm" style="display: none;">
+							<i class="fa fa-exchange"></i> 更换银行账户
+						</button>
+						<button id="bindCard" class="btn btn-primary btn-sm" style="display: none;">
+							<i class="fa fa-edit"></i> 绑定银行账户
+						</button>
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 统计数据 -->
+					<div id="bindCardDiv" style="display: none;">
+						<div class="row">
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>账户类型：</dt>
+									<dd>
+										<div data-detail-fetch="cardType"></div>
+									</dd>
+								</dl>
+							</div>
+						</div>
+						<div id="accountBankDetail" class="row" style="display: none;">
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>账户名称：</dt>
+									<dd>
+										<div data-detail-fetch="realName"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>银行账号：</dt>
+									<dd>
+										<div data-detail-fetch="cardNo"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>开户银行：</dt>
+									<dd>
+										<div data-detail-fetch="bankName"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>开户地区：</dt>
+									<dd>
+										<div data-detail-fetch="bankAddress"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>开户支行：</dt>
+									<dd>
+										<div data-detail-fetch="branch"></div>
+									</dd>
+								</dl>
+							</div>
+						</div>
+						<div id="personBankDetail" class="row" style="display: none;">
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>姓名：</dt>
+									<dd>
+										<div data-detail-fetch="realName"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>银行卡号：</dt>
+									<dd>
+										<div data-detail-fetch="cardNo"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>开户银行：</dt>
+									<dd>
+										<div data-detail-fetch="bankName"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>身份证号：</dt>
+									<dd>
+										<div data-detail-fetch="certificateNo"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>手机号：</dt>
+									<dd>
+										<div data-detail-fetch="phone"></div>
+									</dd>
+								</dl>
+							</div>
+						</div>
+						<div id="unbindDiv" style="display: none;">
+							<div class="row">
+								<div class="col-sm-12">
+									<dl class="dl-horizontal">
+										<dt>&nbsp;</dt>
+										<dd>
+											<button id="unbind" style="margin-left: 200px;" class="btn btn-primary btn-sm">解 绑</button>
+										</dd>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="box-header">
+					<h3 id="changeCardTitle" class="box-title" style="display: none;">更换绑定银行账户</h3>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 统计数据 -->
+					<div id="changeCardDiv" style="display: none;">
+						<div class="row">
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>姓名：</dt>
+									<dd>
+										<div id="realName" data-detail-fetch="realName"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>银行卡号：</dt>
+									<dd>
+										<div id="cardNo" data-detail-fetch="cardNo"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>开户银行：</dt>
+									<dd>
+										<div id="bankName" data-detail-fetch="bankName"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>身份证号：</dt>
+									<dd>
+										<div id="certificateNo" data-detail-fetch="certificateNo"></div>
+									</dd>
+								</dl>
+							</div>
+							<div class="col-sm-12">
+								<dl class="dl-horizontal">
+									<dt>手机号：</dt>
+									<dd>
+										<div id="phone" data-detail-fetch="phone"></div>
+									</dd>
+								</dl>
+							</div>
+							<div id="smsCodeDiv" style="display: none;">
+								<div class="col-sm-12">
+									<dl class="dl-horizontal">
+										<dt>验证码：</dt>
+										<dd>
+											<input id="smsCode" placeholder="请输入验证码" maxlength="6" />
+											<button id="sendMessage" class="btn btn-primary btn-sm">点击发送验证码</button>
+										</dd>
+									</dl>
+								</div>
+								<div class="col-sm-12">
+									<dl class="dl-horizontal">
+										<dt>&nbsp;</dt>
+										<dd>
+											<button id="bindConfirm" style="margin-left: 200px;" class="btn btn-primary btn-sm">确 定</button>
+										</dd>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 渠道列表 -->
+<div id="platformsModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">切换平台</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<form id="channelSearchForm" name="channelSearchForm" method="post">
+							<div class="form-group">
+								<label>平台名称</label>
+								<input id="searchplatformName" name="title" type="text" class="form-control input-sm" placeholder="搜索平台名称" required>
+							</div>
+						</form>
+					</div>
+				</div>
+				<table id="platformTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>平台名称</th>
+							<th>平台状态</th>
+							<th>绑卡状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 编辑模态窗 默认大小窗体 -->
+<div id="editplatformsModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">编辑平台基本信息</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="channelForm" name="channelForm" method="post">
+					<div class="form-group">
+						<label>平台名称：</label>
+						<input id="platformName" name="platformName" type="text" class="form-control" placeholder="请输入平台名称" required>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<div class="form-group">
+						<label>平台状态：</label>
+						<div class="row form-style">
+							<div class="col-sm-2"></div>
+							<div class="col-sm-2">
+								<input name="platformStatus" type="radio" value="1" class="" required> 启用
+							</div>
+							<div class="col-sm-2">
+								<input name="platformStatus" type="radio" value="0" class="" required> 停用
+							</div>
+						</div>
+					</div>
+					<div id="reserveAccountDiv">
+						<h5>备付金账户</h5>
+					</div>
+					<input name="userOid" type="hidden">
+				</form>
+				<div class="row" id="addNewReserveDiv">
+					<div class="col-xs-10">
+						<form id="addNewReserveForm" name="addNewReserveForm" method="post">
+							<div class="form-group">
+								<label>新增备付金：</label>
+								<input name="newReserve" type="text" class="form-control" placeholder="请输入新增备付金名称" required>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</form>
+					</div>
+					<div class="col-xs-2">
+						<div class="form-group">
+							<label>&nbsp;</label>
+							<button id="addNewReserveSubmit" type="button" class="form-control btn btn-primary btn-submit addNewReserveSubmit">添加</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="channelSubmit" type="button" class="btn btn-primary btn-submit channelSubmit">提交申请</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 编辑模态窗 默认大小窗体 -->
+<div id="bindCardModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-2"></div>
+						<div class="col-sm-4">
+							<input type="radio" name="accountBankType" id="enterprise" value="01" checked="checked"> 企业对公账户
+						</div>
+						<div class="col-sm-4">
+							<input type="radio" name="accountBankType" id="personal" value="02"> 个人储蓄银行卡
+						</div>
+					</div>
+				</div>
+				<h4 class="modal-title enterprise"><span class="cardType"></span>企业银行账户</h4>
+				<h4 class="modal-title personal" style="display: none;"><span class="cardType"></span>个人银行账户</h4>
+			</div>
+			<div id="enterpriseDiv">
+				<!-- 模态窗内容体 -->
+				<div class="modal-body">
+					<!-- 新增/编辑事件表单 -->
+					<form id="enterpriseForm" name="enterpriseForm" method="post">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>账户名称：</label>
+									<input name="realName" type="text" class="form-control" placeholder="请输入账户名称" maxlength="20" required>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>银行账号：</label>
+									<input name="cardNo" type="text" class="form-control" placeholder="请输入银行账号" data-validbank="cbankno" maxlength="30" required>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>开户银行：</label>
+									<select name="bankName" class="form-control input-sm" required></select>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label>开户地区：</label>
+									<select id="province" name="province" class="form-control input-sm" required></select>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<select id="city" name="city" class="form-control input-sm" required></select>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>开户支行：</label>
+									<input name="bankBranch" type="text" class="form-control" placeholder="请输入开户支行" maxlength="20" required>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<input name="userOid" type="hidden">
+						<input name="bankAddress" type="hidden" />
+						<input name="applicantId" type="hidden" />
+						<input name="applicantName" type="hidden" />
+						<input name="accountBankType" type="hidden" />
+						<input name="platformName" type="hidden" />
+						<input name="bindCardStatus" type="hidden" />
+					</form>
+				</div>
+				<!-- 模态窗底部 -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+					<button id="enterpriseSubmit" type="button" class="btn btn-primary btn-submit enterpriseSubmit">提 交</button>
+				</div>
+			</div>
+			<div id="personalDiv" style="display: none;">
+				<!-- 模态窗内容体 -->
+				<div class="modal-body">
+					<form id="personalForm" name="personalForm" method="post">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>姓名：</label>
+									<input name="realName" type="text" class="form-control" placeholder="请输入姓名" minlength="2" maxlength="6" required>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div id="cardNoDiv" class="form-group">
+									<label>银行卡号：</label>
+									<input name="cardNo" type="text" class="form-control" placeholder="请输入银行卡号" data-validbank="bankno" maxlength="19" required>
+									<div id="cardNoError" class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>开户银行：</label>
+									<select name="bankName" class="form-control input-sm" required></select>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>身份证号：</label>
+									<input name="certificateNo" type="text" class="form-control" placeholder="请输入身份证号" data-valididno="idno" maxlength="18" required>
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>手机号：</label>
+									<input name="phone" type="text" class="form-control" placeholder="请输入手机号" data-validmobileno="mobileno" required maxlength="11">
+									<div class="help-block with-errors text-red"></div>
+								</div>
+							</div>
+						</div>
+						<input name="userOid" type="hidden">
+						<input name="applicantId" type="hidden" />
+						<input name="applicantName" type="hidden" />
+						<input name="accountBankType" type="hidden" />
+						<input name="platformName" type="hidden" />
+						<input name="bindCardStatus" type="hidden" />
+					</form>
+				</div>
+				<!-- 模态窗底部 -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+					<button id="personalSubmit" type="button" class="btn btn-primary btn-submit personalSubmit">提 交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 查看审核中变更记录 -->
+<div id="platformChangeModal" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">查看审核中变更记录</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">原内容</p>
+				<div id="oldContent"></div>
+				<p class="form-header">申请变更内容</p>
+				<div id="newContent"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 换绑卡提示窗 -->
+<div id="bindCardConfirmModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">提示</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p>提交新信息会覆盖正在更换的银行账户信息，是否要继续提交？</p>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="bindCardConfirmSubmit" type="button" class="btn btn-primary btn-submit">确认提交</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,184 @@
+<!-- 页面头部 -->
+<section class="content-header">
+    <h1>
+       指令批量审核管理
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i>指令管理</a></li>
+        <li class="active">指令批量审核管理</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+
+        <div class="col-xs-12">
+            <!-- Grid -->
+            <div id="dataGrid" class="box box-primary">
+                <div class="box-header">
+                    <div class="box-tools">
+                    </div>
+                </div>
+                <!-- Grid头部 -->
+                <div class="box-header with-border">
+                    <form class="form-horizontal" style="margin-top: 5px" id="settlement_search_payment_audit_bath"
+                          role="form" name="settlement_search_payment_audit">
+                       
+                       <div class="form-group">
+							<div class="col-sm-2">
+								<label>下单时间</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input name="beginTime" id="beginTime_audit_bath" type="text"  class="form-control datepicker"  placeholder="从" data-date-format="YYYY-MM-DD HH:mm:ss">
+								</div>
+							</div>
+							<div class="col-sm-2">
+									<label>&nbsp;</label>
+									<div class="input-group input-group-sm range">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="endTime" id="endTime_audit_bath" type="text" class="form-control datepicker" placeholder="到" data-date-format="YYYY-MM-DD HH:mm:ss">
+									</div>
+							</div>
+						</div>
+                        <div class="form-group">
+                        	<label class="col-sm-1 control-label">账户名:</label>
+                            <div class="col-sm-2">
+                            	 <input type="text" class="form-control"  name="realName"
+                                   id="payment_realName_audit_bath">
+                            </div>
+                            <label class="col-sm-1 control-label">订单号:</label>
+                            <div class="col-sm-2">
+                            	 <input type="text" class="form-control"  name="orderNo"
+                                   id="payment_orderNo_audit_bath">
+                            </div>
+                            </div>
+                         <div class="form-group">
+                            <label class="col-sm-1 control-label">支付流水号:</label>
+                            <div class="col-sm-2">
+                            	 <input type="text" class="form-control"  name="payNo"
+                                   id="payment_payNo_audit_bath">
+                            </div>
+                            <button class="btn btn-default" id="payment_search_audit_bath">搜索</button>
+                            <button class="btn btn-default" id="payment_reset_audit_bath">清空</button>
+                        </div>
+                    </form>
+                    <button class="btn btn-default" id="submit_audit_bath">提交一页</button>
+                            <button class="btn btn-default" id="submit_audit_bath_all">提交所有</button>
+                </div>
+                <!-- Grid内容体 -->
+                <div class="box-body">
+                    <table id="settlement_page_payment_audit_bath" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                        	<th></th>
+                        	<th>订单号</th>
+                        	<th>支付流水号</th>
+							<th>交易类型</th>
+                            <th>交易状态</th>
+                            <th>银行卡号</th>
+                            <th>账户名</th>
+                            <th>修改/审核状态</th>
+                            <th>修改/审核原因</th>
+                            <th>支付/重发审核状态</th>
+                            <th>(支付/重发)/审核原因</th>
+                            <th>撤销审核状态</th>
+                            <th>撤销/审核原因</th>
+                            <th>修改时间</th>
+                            <th>展示可操作</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="modal fade" id="audit_settlement_attEdit_bath" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">审核</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" method="post" id="audit_settlement_modify_bath" name="audit_settlement_modify">
+                      <input type="hidden" id="settlement_oidBath_audit" />
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">审核类型</label>
+                        <div class="col-sm-5">
+                            <select name="audit_type_settlement_bath" id="audit_type_settlement_bath" class="form-control">
+                            	<option value="01">单笔支付</option>
+								<option value="02">失败重发</option>
+								<option value="04">修改状态</option>
+								<option value="03">撤销</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">审核原因:</label>
+                        <div class="col-sm-5">
+                             <textarea class="form-control" name="reson" id="reson_bath" placeholder="审核原因只能输入50个字符"></textarea>
+        				     <span id="audit_tishi_bath" style="color:red;"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="auditStatus_1_bath">审核通过</button>
+                        <button type="button" class="btn btn-primary" id="auditStatus_0_bath">审核不通过</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    	<span id="audit_resule_bath" style="color:red;"></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="audit_settlement_attEdit_bath_all" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">审核</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" method="post" id="audit_settlement_modify_bath_all" name="audit_settlement_modify_all">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">审核类型</label>
+                        <div class="col-sm-5">
+                            <select name="audit_type_settlement_bath" id="audit_type_settlement_bath_all" class="form-control">
+                            	<option value="01">单笔支付</option>
+								<option value="02">失败重发</option>
+								<option value="04">修改状态</option>
+								<option value="03">撤销</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">审核原因:</label>
+                        <div class="col-sm-5">
+                             <textarea class="form-control" name="reson" id="reson_bath_all" placeholder="审核原因只能输入50个字符"></textarea>
+        				     <span id="audit_tishi_bath_all" style="color:red;"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="auditStatus_1_bath_all">审核通过</button>
+                        <button type="button" class="btn btn-primary" id="auditStatus_0_bath_all">审核不通过</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    	<span id="audit_resule_bath_all" style="color:red;"></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

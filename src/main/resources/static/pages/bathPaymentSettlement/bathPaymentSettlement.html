@@ -1,0 +1,223 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>指令批量提交管理</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i>指令管理</a></li>
+		<li class="active">指令批量提交管理</li>
+	</ol>
+</section>
+<section class="content">
+	<div class="row">
+
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<div class="box-header">
+					<div class="box-tools"></div>
+				</div>
+				<!-- Grid头部 -->
+				<div class="box-header with-border">
+					<form class="form-horizontal" style="margin-top: 5px"
+						id="settlement_search_payment_bath" role="form"
+						name="settlement_search_payment_bath">
+						<div class="form-group">
+							<div class="col-sm-2">
+								<label>下单时间</label>
+								<div class="input-group input-group-sm">
+									<div class="input-group-addon">
+										<i class="fa fa-calendar"></i>
+									</div>
+									<input name="beginTime" id="beginTime_bath" type="text"  class="form-control datepicker"  placeholder="从" data-date-format="YYYY-MM-DD HH:mm:ss">
+								</div>
+							</div>
+							<div class="col-sm-2">
+									<label>&nbsp;</label>
+									<div class="input-group input-group-sm range">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="endTime" id="endTime_bath" type="text" class="form-control datepicker" placeholder="到" data-date-format="YYYY-MM-DD HH:mm:ss">
+									</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">账户名:</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" name="realName"
+									id="payment_realName_bath">
+							</div>
+							<label class="col-sm-1 control-label">订单号:</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" name="orderNo"
+									id="payment_orderNo_bath">
+							</div>
+							 <label class="col-sm-1 control-label">支付流水号:</label>
+                            <div class="col-sm-2">
+                            	 <input type="text" class="form-control"  name="payNo"
+                                   id="payment_payNo_bath">
+                            </div>
+							<button class="btn btn-default" id="payment_search_bath">搜索</button>
+							<button class="btn btn-default" id="payment_reset_bath">清空</button>
+						</div>
+					</form>
+					<button class="btn btn-default" id="submit_bath">提交一页</button>
+                            <button class="btn btn-default" id="submit_bath_all">提交所有</button>
+					<!-- 渠道列表 -->
+					<div style="display: none;"><ul id="ul_Channel_Name_bath"></ul></div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<table id="settlement_page_payment_bath"
+						class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th></th>
+								<th>订单号</th>
+								<th>支付流水号</th>
+								<th>账户名</th>
+								<th>交易金额</th>
+								<th>交易类型</th>
+								<th>交易状态</th>
+								<th>渠道</th>
+								<th>错误详情</th>
+								<th>修改/审核状态</th>
+								<th>修改/审核原因</th>
+								<th>支付/重发审核状态</th>
+								<th>(支付/重发)/审核原因</th>
+								<th>撤销审核状态</th>
+								<th>撤销/审核原因</th>
+								<th>修改时间</th>
+								<th>展示可操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<div class="modal fade" id="payment_update_input_bath" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">审核</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" method="post" id="updateModify_bath" name="updateModify_bath">
+                   <input type="hidden" id="settlement_oidBath" />
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">审核类型</label>
+                        <div class="col-sm-5">
+							<select name="bathOperatorTag" id="payment_bathOperatorTag_bath"
+							class="form-control">
+							<option value="01">单笔支付</option>
+							<option value="02">失败重发</option>
+							<option value="04">修改状态</option>
+							<option value="03">撤销</option>
+							</select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="update_bath_show" style="display: none">
+						<label class="col-sm-2 control-label">修改状态:</label>
+						<div class="col-sm-5">
+							<select name="updateStatus" id="payment_updateStatus_bath"
+								class="form-control">
+								<option value="0">未处理</option>
+								<option value="1">交易成功</option>
+								<option value="2">交易失败</option>
+								<option value="3">交易处理中</option>
+								<option value="4">超时</option>
+							</select>
+						</div>
+					</div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">审核原因:</label>
+                        <div class="col-sm-5">
+                             <textarea class="form-control" name="reson" id="payment_updateReson_bath" placeholder="审核原因只能输入50个字符"></textarea>
+        				     <span id="update_tishi_bath" style="color:red;"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    	<div class="unit">
+							<button class="btn btn-block btn-primary accept" id="update_m_bath"
+								data-dismiss="modal">确 定</button>
+						</div>
+						<div class="unit">
+							<button class="btn btn-block btn-default cancel"
+								data-dismiss="modal">取 消</button>
+						</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="payment_update_input_all_bath" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">审核</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" method="post" id="updateModify_all_bath" name="updateModify_bath_all">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">审核类型</label>
+                        <div class="col-sm-5">
+							<select name="bathOperatorTag" id="payment_bathOperatorTag_all_bath"
+							class="form-control">
+							<option value="01">单笔支付</option>
+							<option value="02">失败重发</option>
+							<option value="04">修改状态</option>
+							<option value="03">撤销</option>
+							</select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="update_all_bath_show" style="display: none">
+						<label class="col-sm-2 control-label">修改状态:</label>
+						<div class="col-sm-5">
+							<select name="updateStatus" id="payment_updateStatus_all_bath"
+								class="form-control">
+								<option value="0">未处理</option>
+								<option value="1">交易成功</option>
+								<option value="2">交易失败</option>
+								<option value="3">交易处理中</option>
+								<option value="4">超时</option>
+							</select>
+						</div>
+					</div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">审核原因:</label>
+                        <div class="col-sm-5">
+                             <textarea class="form-control" name="reson" id="payment_updateReson_bath_all" placeholder="审核原因只能输入50个字符"></textarea>
+        				     <span id="update_tishi_bath_all" style="color:red;"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    	<div class="unit">
+							<button class="btn btn-block btn-primary accept" id="update_m_bath_all"
+								data-dismiss="modal">确 定</button>
+						</div>
+						<div class="unit">
+							<button class="btn btn-block btn-default cancel"
+								data-dismiss="modal">取 消</button>
+						</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

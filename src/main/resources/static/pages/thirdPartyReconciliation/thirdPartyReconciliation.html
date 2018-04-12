@@ -1,0 +1,187 @@
+<!-- 页面头部 -->
+<style>
+	.checkDate {
+		margin-left: -13px;
+	}
+</style>
+<section class="content-header">
+	<h1>
+		第三方对账
+  </h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i>对账管理</a>
+		</li>
+		<li class="active">第三方对账</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header with-border">
+					<h3 class="box-title">第三方对账对账搜索</h3>
+					<form class="form-horizontal" role="form" id="exQueryForm" name="exQueryForm" style="margin-top: 5px">
+						<div class="form-group">
+							<label class="col-sm-1 control-label">对账渠道:</label>
+							<div class="col-xs-2">
+								<select class="form-control" name="channelId" id="channelId">
+									<option value="1">快付通</option>
+									<option value="3">先锋支付（代扣）</option>
+									<option value="4">先锋支付（代付）</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-1 control-label">对账状态:</label>
+							<div class="col-xs-2">
+								<select class="form-control" name="reconStatus" id="reconStatus">
+									<option value=4 selected>所有</option>
+									<option value=0>未对账</option>
+									<option value=1>对账成功</option>
+									<option value=2>对账失败</option>
+								</select>
+							</div>
+						</div>
+						<label class="col-sm-1 control-label checkDate">对账日期:</label>
+						<div class="col-sm-3">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<input name="tradTime" type="text" id="checkDate" class="form_datetime form-control datepicker" data-date-format="YYYY-MM-DD">
+							</div>
+						</div>
+					</form>
+					<div class="col-sm-3" style=''>
+						<div class="form-group">
+							<button class="btn btn-default" id="btQuery">查询</button>
+							<button class="btn btn-default" id="btGetUcfRecon">导入对账文件</button>
+							<button class="btn btn-default" id="btGetKftRecon">获取对账流水</button>
+							<button class="btn btn-default" id="btKftRecon">对账</button>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<button class="btn btn-default" id="balanceIgnore">对账忽略</button>
+						</div>
+					</div>
+					<!-- 防重复提交 -->
+					<div id="refreshDiv1">
+					    <i id="refreshI1"></i>
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 主体数据表格 -->
+					<table class="table table-striped table-striped" id="formTable">
+						<thead>
+							<tr>
+								<th></th>
+								<th>订单号/流水号</th>
+								<th>&nbsp;&nbsp;渠道&nbsp;&nbsp;</th>
+								<th>产品编号</th>
+								<th>交易币种</th>
+								<th>交易金额</th>
+								<!--<th>付款方银行账号</th>
+								<th>收款方银行账号</th>-->
+								<th>交易状态</th>
+								<th>失败详情</th>
+								<th>错误码</th>
+								<th>交易时间</th>
+								<th>对账状态</th>
+								<th>&nbsp;&nbsp;对账详情&nbsp;&nbsp;</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title"></h3>
+	<div class="popover-content">
+		<p></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit" id="tips_cancle">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 导入对账文件框 -->
+<div id="addFormModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">导入对账文件</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="addFormForm" name="addFormForm"  method="post" enctype="multipart/form-data">
+					<!--<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>渠道</label>
+								<select name="channelId" id="channelId_add" class="form-control input-sm">
+									<option value="3">代扣</option>
+									<option value="4">代付</option>
+								</select>
+							</div>
+						</div>
+					</div>-->
+					<div class="form-group">
+						<label>对账文件</label>
+						<input name="file" id="uploadFile" type="file" class="form-control input-sm" required>
+						<span id="add_uploadFile_err" style="color:red;"></span>
+					</div>
+					<div class="form-group">
+						<label>渠道名称</label>
+						<input name="channelName" id="channelName_add" type="text" class="form-control input-sm" placeholder="选择文件后自动填充" readonly="readonly" required>
+						<span id="add_channelName_err" style="color:red;"></span>
+					</div>
+					<div class="form-group">
+						<label>渠道Id</label>
+						<input name="channelId" id="channelId_add" type="text" class="form-control input-sm" placeholder="选择文件后自动填充" readonly="readonly" required>
+						<span id="add_channelId_err" style="color:red;"></span>
+					</div>
+					<div class="form-group">
+						<label>对账日期</label>
+						<input name="checkDate" id="tradTime_add" type="text" class="form-control input-sm" placeholder="选择文件后自动填充" readonly="readonly" required>
+						<span id="add_tradTime_err" style="color:red;"></span>
+					</div>
+					<!--<label class="col-sm-1 control-label checkDate">对账日期:</label>
+						<div class="col-sm-3">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-calendar"></i>
+								</div>
+								<input name="tradTime" type="text" id="checkDate_add" class="form_datetime form-control datepicker" data-date-format="YYYY-MM-DD">
+							</div>
+						</div>-->
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button id="uploadRecon" type="button" class="btn btn-primary btn-submit">确 定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>

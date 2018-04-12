@@ -1,0 +1,189 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>银行账户审批</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 银行账户管理</a>
+		</li>
+		<li class="active">银行账户审批</li>
+	</ol>
+</section>
+
+<section class="content">
+	<div class="row">
+
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<div class="box-header">
+					<div class="box-tools">
+					</div>
+				</div>
+				<!-- Grid头部 -->
+				<!--<div class="box-header with-border">
+					<form class="form-horizontal" style="margin-top: 5px" id="settlement_search_information" role="form" name="settlement_search_information">
+						<div class="form-group">
+							<label class="col-sm-1 control-label">账户名:</label>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" name="bankAccountName" id="information_bankAccountName">
+							</div>
+							<label class="col-sm-1 control-label">账户类型:</label>
+							<div class="col-sm-2">
+								<select name="accountType" id="information_accountType" class="form-control">
+									<option value=""></option>
+									<option value="01">基本户</option>
+									<option value="02">一般户</option>
+									<option value="03">收入户</option>
+									<option value="04">支出户</option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">账户状态:</label>
+							<div class="col-sm-2">
+								<select name="accountStatus" id="information_accountStatus" class="form-control">
+									<option value=""></option>
+									<option value="0">可用</option>
+									<option value="1">禁用</option>
+									<option value="2">待审核</option>
+									<option value="3">待提交</option>
+									<option value="4">已拒绝</option>
+								</select>
+							</div>
+
+							<button class="btn btn-default" id="information_search">搜索</button>
+							<button class="btn btn-default" id="information_reset">清空</button>
+						</div>
+					</form>
+				</div>-->
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!--<button class="btn btn-default" id="information_add">批量审批</button>-->
+					<table id="settlement_approval_information" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>银行帐号</th>
+								<th>银行户名</th>
+								<th>开户行类别</th>
+								<th>开户行全名</th>
+								<th>开户行地址</th>
+								<th>开户行省</th>
+								<th>开户行市</th>
+								<th>账户类型</th>
+								<th>开户状态</th>
+								<th>创建时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 账户详情-->
+<div class="modal fade" id="informationDetailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">账户详情</h4>
+			</div>
+			<div class="modal-body">
+
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>银行帐号:</dt>
+							<dd id="detcode">
+								<div data-detail-fetch="bankAccount" id="bankAccount"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>银行户名:</dt>
+							<dd>
+								<div data-detail-fetch="bankAccountName" id="bankAccountName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>开户行类别:</dt>
+							<dd>
+								<div data-detail-fetch="bankAccontClass" id="bankAccontClass"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>开户行全名:</dt>
+							<dd>
+								<div data-detail-fetch="accountFullName" id="accountFullName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>开户行地址:</dt>
+							<dd>
+								<div data-detail-fetch="bankAddress" id="bankAddress"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>开户行省:</dt>
+							<dd>
+								<div data-detail-fetch="openAccountProvince" id="openAccountProvince"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>开户行市:</dt>
+							<dd>
+								<div data-detail-fetch="openAccountCity" id="openAccountCity"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>账户类型:</dt>
+							<dd>
+								<div data-detail-fetch="accountType" id="accountType"></div>
+							</dd>
+						</dl>
+					</div>					
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>开户状态:</dt>
+							<dd>
+								<div data-detail-fetch="accountStatus" id="accountStatus"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p>确定审批？</p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>

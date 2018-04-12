@@ -1,0 +1,172 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+        系统账户明细
+    </h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i>账户账务系统</a>
+		</li>
+		<li class="active">系统账户明细</li>
+	</ol>
+</section>
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="accountTransGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">系统账户明细列表</h3>
+					<div class="box-tools">
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>用户账号:</label>
+									<input type="text" class="form-control input-sm" id="phone" name="phone" placeholder="搜索用户账号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>账户编号</label>
+									<input type="text" class="form-control input-sm" id="accountOid" name="accountOid" placeholder="搜索账户编号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>用户类型</label>
+									<select name="userType" class="form-control input-sm">
+										<option selected="selected" value="">全部</option>
+										<option value="T1">投资人</option>
+										<option value="T2">发行人</option>
+										<option value="T3">平台</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>账户类型</label>
+									<select name="accountType" class="form-control input-sm">
+										<option selected="selected" value="">全部</option>
+										<!--<option value="01">活期户</option>-->
+										<!--<option value="02">活期利息户</option>-->
+										<!--<option value="03">体验金户</option>-->
+										<!--<option value="04">在途户</option>-->
+										<option value="05">提现冻结户</option>
+										<!--<option value="06">定期户</option>-->
+										<option value="07">产品户</option>
+										<option value="08">备付金户</option>
+										<!--<option value="09">超级户</option>-->
+										<option value="10">基本户</option>
+										<!--<option value="11">运营户</option>-->
+										<option value="12">归集清算户</option>
+										<!--<option value="13">可用金户</option>-->
+										<option value="14">充值冻结户</option>
+										<option value="15">冻结资金户</option>
+										<!--<option value="16">定期利息户</option>-->
+										<option value="17">续投冻结户</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>交易订单号</label>
+									<input type="text" class="form-control input-sm" id="orderNo" name="orderNo" placeholder="搜索交易订单号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>登帐事件名称</label>
+									<select name="orderType" class="form-control input-sm">
+										<option selected="selected" value="">全部</option>
+										<option value="transferPublisherProduct">发行人产品户转账</option>
+										<option value="transferPublisherBasic">发行人基本户转账</option>
+										<option value="transferPlatformPayment">平台备付金转账</option>
+										<option value="transferPlatformBasic">平台基本户转账</option>
+										<option value="nettingOutcome">轧差-出款</option>
+										<option value="nettingIncome">轧差-入款</option>
+										<option value="reFundUseVoucherT1">非实时使用卡券退款</option>
+										<option value="reFundUseVoucherT0">实时使用卡券退款</option>
+										<option value="reFundInvestT1">非实时投资退款</option>
+										<option value="reFundInvestT0">实时投资退款</option>
+										<option value="withdrawUnfrozen">提现解冻</option>
+										<option value="withdrawFrozen">提现冻结</option>
+										<option value="withdraw">提现</option>
+										<option value="recharge">充值</option>
+										<option value="unfreezeContinued">续投解冻</option>
+										<option value="investT1Continued">续投-非实时投资</option>
+										<option value="investT0Continued">续投-实时投资</option>
+										<option value="redeemT1Continued">续投-非实时兑付</option>
+										<option value="redeemT0Continued">续投-实时兑付</option>
+										<option value="investT0Change">转换-实时投资</option>
+										<option value="redeemT0Change">转换-实时兑付</option>
+										<option value="redeemT1">非实时兑付</option>
+										<option value="redeemT0">实时兑付</option>
+										<option value="investT1">非实时投资</option>
+										<option value="investT0">实时投资</option>
+										<option value="chargingPlatformFee">收取平台服务费</option>
+										<option value="rebate">返佣</option>
+										<option value="useVoucherT1">非实时使用代金券</option>
+										<option value="useVoucherT0">实时使用代金券</option>
+										<option value="grantRateCouponProfit">发放加息券收益</option>
+										<option value="grantExperienceProfit">发放体验金收益</option>
+										<option value="grantRateCouponProfitContinued">续投-发放加息券收益</option>
+										<option value="useRedPacket">使用红包</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>交易日期</label>
+									<div class="input-group input-group-sm">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="startTime" type="text" class="form-control datepicker" placeholder="从" data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="endTime">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<div class="input-group input-group-sm range">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="endTime" type="text" class="form-control datepicker" placeholder="到" data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="startTime">
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<!-- 主体数据表格 -->
+					<table id="account_trans_Table" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>用户账号</th>
+								<th>用户类型</th>
+								<th>账户编号</th>
+								<th>账户类型</th>
+								<th>交易订单号</th>
+								<th>登帐事件名称</th>
+								<th>交易金额</th>
+								<th>交易后余额</th>
+								<th>交易时间</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

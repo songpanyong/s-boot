@@ -1,0 +1,690 @@
+<!-- 页面头部 -->
+<section class="content-header">
+    <h1>订单管理</h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="javascript:void(0)"><i class="fa fa-dashboard"></i>结算平台系统</a>
+        </li>
+        <li class="active">订单管理</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+
+        <div class="col-xs-12">
+            <!-- Grid -->
+            <div id="dataGrid" class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">订单管理</h3>
+                    <div class="box-tools">
+                        <button class="btn btn-primary btn-sm" id="order_entry">订单录入</button>
+                        <button class="btn btn-primary btn-sm" id="order_search">搜索</button>
+                        <button class="btn btn-primary btn-sm" id="order_reset">清空</button>
+                        <button id="settlement_order_down" class="btn btn-primary btn-sm">导出Excel</button>
+                    </div>
+                </div>
+                <!-- Grid头部 -->
+                <div class="box-header with-border">
+                    <form class="form-horizontal" style="margin-top: 5px" id="settlement_search_order" role="form"
+                          name="settlement_search_order">
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label>订单类型</label>
+                                <select name="type" id="order_type" class="form-control input-sm">
+                                    <option value="">全部</option>
+                                    <option value="01">充值</option>
+                                    <option value="02">提现</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <label>订单状态</label>
+                                <select name="status" id="order_status" class="form-control input-sm">
+                                    <option value="">全部</option>
+                                    <option value="0">未处理</option>
+                                    <option value="1">交易成功</option>
+                                    <option value="2">交易失败</option>
+                                    <option value="3">交易处理中</option>
+                                    <option value="4">超时</option>
+                                    <!--<option value="5">撤销</option>-->
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <label>下单时间</label>
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input name="beginTime" id="beginTime" type="text" class="form-control datepicker"
+                                           placeholder="从" data-date-format="YYYY-MM-DD HH:mm:ss"
+                                           data-date-end="endTime">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <label>&nbsp;</label>
+                                <div class="input-group input-group-sm range">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input name="endTime" id="endTime" type="text" class="form-control datepicker"
+                                           placeholder="到" data-date-format="YYYY-MM-DD HH:mm:ss"
+                                           data-date-begin="beginTime">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-3">
+                                <label>订单金额</label>
+                                <input name="limitAmount" id="limitAmount" type="text" class="form-control"
+                                       placeholder="从">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>&nbsp;</label>
+                                <input name="maxAmount" id="maxAmount" type="text" class="form-control" placeholder="到">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>用户名称:</label>
+                                <input type="text" class="form-control" name="realName" id="order_realName">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>用户账号:</label>
+                                <input type="text" class="form-control" name="phone" id="order_phone">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label>订单号:</label>
+                                <input type="text" class="form-control" name="orderNo" id="order_orderNo">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>支付流水号:</label>
+                                <input type="text" class="form-control" name="payNo" id="order_payNo">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>审核状态</label>
+                                <select name="auditStatus" class="form-control input-sm">
+                                    <option value="" selected="">全部</option>
+                                    <option value="1">审核中</option>
+                                    <option value="2">审核通过</option>
+                                    <option value="3">驳回</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="ifile" style="display:none"></div>
+                    <!-- 支付通道列表 -->
+                    <div style="display: none;">
+                        <ul id="ul_Channel_Name"></ul>
+                    </div>
+                </div>
+                <!-- Grid内容体 -->
+                <div class="box-body">
+                    <table id="settlement_page_order" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>支付流水号</th>
+                            <th>订单类型</th>
+                            <th>订单状态</th>
+                            <th>订单金额</th>
+                            <th>手续费</th>
+                            <th>系统来源</th>
+                            <th>用户名称</th>
+                            <th>用户账号</th>
+                            <th>用户类型</th>
+                            <th>支付通道</th>
+                            <!--<th>支付行别</th>-->
+                            <!--<th>银行账号</th>-->
+                            <!--<th>失败详情</th>-->
+                            <!--<th>错误码</th>-->
+                            <!--<th>备注</th>-->
+                            <!--<th>订单描述</th>-->
+                            <th>&nbsp;&nbsp;&nbsp;&nbsp;下单时间</th>
+                            <!--<th>&nbsp;&nbsp;&nbsp;&nbsp;修改时间</th>-->
+                        </tr>
+                        </thead>
+                    </table>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" id="totalAccount"></label>
+                        <!--<label class="col-sm-2 control-label"  id="totalAmount"></label>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 详情模态窗 默认大小 -->
+<div id="orderAttEdit" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <!-- 模态窗头部 -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">订单详情</h4>
+            </div>
+            <!-- 模态窗内容体 -->
+            <div class="modal-body">
+                <form id="detailForm" name="detailForm" method="post">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>用户名称:</dt>
+                                <dd>
+                                    <div data-detail-fetch="realName"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>用户账号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="phone"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>用户类型:</dt>
+                                <dd>
+                                    <div data-detail-fetch="userType"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="orderNo"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>系统来源:</dt>
+                                <dd>
+                                    <div data-detail-fetch="systemSource"></div>
+                                </dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单金额:</dt>
+                                <dd>
+                                    <div data-detail-fetch="amount"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>手续费:</dt>
+                                <dd>
+                                    <div data-detail-fetch="fee"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单类型:</dt>
+                                <dd>
+                                    <div data-detail-fetch="type"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单状态:</dt>
+                                <dd>
+                                    <div data-detail-fetch="status"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <!--<div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>对账状态:</dt>
+                                <dd>
+                                    <div id="reconStatus" data-detail-fetch="reconStatus"></div>
+                                </dd>
+                            </dl>
+                        </div>-->
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>下单时间:</dt>
+                                <dd>
+                                    <div data-detail-fetch="receiveTime"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>修改时间:</dt>
+                                <dd>
+                                    <div data-detail-fetch="updateTime"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>备注:</dt>
+                                <dd>
+                                    <div data-detail-fetch="remark"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <!--<div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>银行编码:</dt>
+                                <dd>
+                                    <div data-detail-fetch="bankCode"></div>
+                                </dd>
+                            </dl>
+                        </div>-->
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>银行帐号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="cardNo"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>支付通道:</dt>
+                                <dd>
+                                    <div data-detail-fetch="channel"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>请求流水号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="requestNo"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>失败详情:</dt>
+                                <dd>
+                                    <div data-detail-fetch="failDetail"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>支付流水号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="payNo"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <!--<div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>银行返回票号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="bankReturnSeriNo"></div>
+                                </dd>
+                            </dl>
+                        </div>-->
+                        <!--<div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>错误码:</dt>
+                                <dd>
+                                    <div data-detail-fetch="returnCode"></div>
+                                </dd>
+                            </dl>
+                        </div>-->
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单描述:</dt>
+                                <dd>
+                                    <div data-detail-fetch="describ" style="word-wrap:break-word;word-break:break-all;"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新建弹窗 -->
+<div id="addOrderModal" data-backdrop="static" class="modal fade bs-example-modal-mg" tabindex="-1"
+     role="dialog">
+    <div class="modal-dialog modal-mg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 id="addOrderTitle" class="modal-title">手动录入订单</h4>
+            </div>
+            <div class="modal-body">
+                <form id="addOrderForm" name="addOrderForm" method="post">
+                    <input id="labelType" name="labelType" type="hidden">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>商户订单号</label>
+                                <input name="payNo" type="text" class="form-control input-sm" maxlength="32"
+                                       onkeyup="(this.v=function(){this.value=this.value.replace(/[^A-Za-z0-9_]/g,'');}).call(this)"
+                                       placeholder="请输入商户订单号" required="required" data-remote-error="商户订单号不能为空！">
+                                <div class="help-block with-errors text-red"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>订单类型</label>
+                                <select name="type" id="new_type" class="form-control input-sm" maxlength="32"
+                                        required="required">
+                                    <option value="01">充值</option>
+                                    <option value="02">提现</option>
+                                </select>
+                                <div class="help-block with-errors text-red"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>订单金额（元）</label>
+                                <input name="amount" id="new_amount" type="text" class="form-control input-sm"
+                                       maxlength="13"
+                                       placeholder="请输入实际到账金额" data-validfloatforplus="10.2" required="required"
+                                       data-remote-error="订单金额不能为空！">
+                                <div class="help-block with-errors text-red"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label id="new_fee_label">手续费（元）</label>
+                                <input name="fee" id="new_fee" type="text" class="form-control input-sm" maxlength="13"
+                                       placeholder="请输入交易手续费" data-validfloatforplus="10.2" disabled="disabled">
+                                <div class="help-block with-errors text-red"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>下单时间</label>
+                                <input name="receiveTime" id="new_receiveTime" type="text"
+                                       class="form-control datepicker"
+                                       placeholder="请选择交易时间" data-date-format="YYYY-MM-DD HH:mm:ss"
+                                       required="required" data-remote-error="交易时间不能为空！">
+                                <div class="help-block with-errors text-red"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>支付通道</label>
+                                <select id="new_channel" name="channel" class="form-control input-sm" maxlength="20"
+                                        required="required">
+                                </select>
+                                <div class="help-block with-errors text-red"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>商户号</label>
+                                <input name="memberId" type="text" class="form-control input-sm" maxlength="20"
+                                       placeholder="请输入商户号">
+                                <div class="help-block with-errors text-red"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>收款人账号</label>
+                                <input name="payeeAccount" type="text" class="form-control input-sm" maxlength="20"
+                                       placeholder="请输入收款人账号" required="required" data-remote-error="收款人账号不能为空！">
+                                <div class="help-block with-errors text-red"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>付款人账号</label>
+                                <input name="payerAccount" type="text" class="form-control input-sm" maxlength="20"
+                                       placeholder="请输入付款人账号" required="required" data-remote-error="付款人账号不能为空！">
+                                <div class="help-block with-errors text-red"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>备注</label>
+                                <textarea name="remark" rows="3" class="form-control input-sm" maxlength="200"
+                                          placeholder="请输入订单备注信息"></textarea>
+                                <div class="help-block with-errors text-red"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- 模态窗底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                <button id="addOrderSubmit" type="button"
+                        class="btn btn-primary btn-submit addOrderSubmit">新建
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="orderDetail" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <!-- 模态窗头部 -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">订单详情</h4>
+            </div>
+            <!-- 模态窗内容体 -->
+            <div class="modal-body">
+                <form id="orderDetailForm" name="orderDetailForm" method="post">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>用户名称:</dt>
+                                <dd>
+                                    <div data-detail-fetch="realName"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>用户账号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="phone"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>用户类型:</dt>
+                                <dd>
+                                    <div data-detail-fetch="userType"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="orderNo"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>系统来源:</dt>
+                                <dd>
+                                    <div data-detail-fetch="systemSource"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单金额:</dt>
+                                <dd>
+                                    <div data-detail-fetch="amount"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>手续费:</dt>
+                                <dd>
+                                    <div data-detail-fetch="fee"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单类型:</dt>
+                                <dd>
+                                    <div data-detail-fetch="type"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单状态:</dt>
+                                <dd>
+                                    <div data-detail-fetch="status"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>下单时间:</dt>
+                                <dd>
+                                    <div data-detail-fetch="receiveTime"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>操作时间:</dt>
+                                <dd>
+                                    <div data-detail-fetch="createTime"></div>
+                                </dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>审核时间:</dt>
+                                <dd>
+                                    <div data-detail-fetch="updateTime"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>操作员:</dt>
+                                <dd>
+                                    <div data-detail-fetch="operatorName"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>审核状态:</dt>
+                                <dd>
+                                    <div data-detail-fetch="auditStatus"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>商户号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="memberId"></div>
+                                </dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>支付通道:</dt>
+                                <dd>
+                                    <div data-detail-fetch="channel"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>银行账号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="cardNo"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>失败详情:</dt>
+                                <dd>
+                                    <div data-detail-fetch="failDetail"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>请求流水号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="requestNo"></div>
+                                </dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单描述:</dt>
+                                <dd>
+                                    <div data-detail-fetch="describ"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>支付流水号:</dt>
+                            <dd>
+                                <div data-detail-fetch="payNo"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>备注:</dt>
+                            <dd>
+                                <div data-detail-fetch="remark"
+                                     style="word-wrap:break-word;word-break:break-all;"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>审核意见:</dt>
+                            <dd>
+                                <div data-detail-fetch="auditRemark"
+                                     style="word-wrap:break-word;word-break:break-all;"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div style="padding-bottom: 100px">&nbsp;</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

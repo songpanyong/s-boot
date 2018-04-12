@@ -1,0 +1,340 @@
+<!-- 页面头部 -->
+<section class="content-header">
+    <h1>平台业务审核</h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 系统业务审核</a>
+        </li>
+        <li class="active">平台业务审核</li>
+    </ol>
+</section>
+<section class="content item_box">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box box-primary">
+				<div class="box-body">
+					<div>
+				        <ul id="mainTab" class="nav nav-tabs" role="tablist">
+				            <li role="presentation" class="active">
+				                <a href="#tabpanel1" role="tab" data-toggle="tab">平台信息审核</a>
+				            </li>
+				            <li role="presentation">
+				                <a href="#tabpanel2" role="tab" data-toggle="tab">绑卡信息审核</a>
+				            </li>
+				        </ul>
+				        <div class="tab-content">
+				            <div role="tabpanel" class="tab-pane active" id="tabpanel1">
+			                    <form id="searchAuditForm" name="searchAuditForm" method="post" class="box-header">
+			                        <div class="row">
+			                            <div class="col-sm-3">
+			                                <div class="form-group">
+			                                    <label>用户名称</label>
+			                                    <input name="userName" type="text"
+			                                           class="form-control input-sm"
+			                                           placeholder="搜索用户名称">
+			                                </div>
+			                            </div>
+			                            <div class="col-sm-3">
+			                                <div class="form-group">
+			                                    <label>用户类型</label>
+			                                    <select name="userType" class="form-control input-sm">
+			                                        <option value="" selected>全部</option>
+			                                        <option value="T1">投资人</option>
+			                                        <option value="T2">发行人</option>
+			                                        <option value="T3">平台</option>
+			                                    </select>
+			                                </div>
+			                            </div>
+			                            <div class="col-sm-3">
+			                                <div class="form-group">
+			                                    <label>申请时间</label>
+			                                    <div class="input-group input-group-sm">
+			                                        <div class="input-group-addon">
+			                                            <i class="fa fa-calendar"></i>
+			                                        </div>
+			                                        <input name="beginTime" type="text" class="form-control datepicker"
+			                                               placeholder="从"
+			                                               data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="endTime">
+			                                    </div>
+			                                </div>
+			                            </div>
+			                            <div class="col-sm-3">
+			                                <div class="form-group">
+			                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+			                                    <div class="input-group input-group-sm range">
+			                                        <div class="input-group-addon">
+			                                            <i class="fa fa-calendar"></i>
+			                                        </div>
+			                                        <input name="endTime" type="text" class="form-control datepicker"
+			                                               placeholder="到"
+			                                               data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="beginTime">
+			                                    </div>
+			                                </div>
+			                            </div>
+			                        </div>
+			                        <div class="row">
+			                            <div class="col-sm-3">
+			                                <div class="form-group">
+			                                    <label>审核状态</label>
+			                                    <select name="auditStatus" class="form-control input-sm">
+			                                        <option value="" selected>全部</option>
+			                                        <option value="0">待审核</option>
+			                                        <option value="1">审核通过</option>
+			                                        <option value="2">驳回</option>
+			                                        <option value="3">已撤销</option>
+			                                    </select>
+			                                </div>
+			                            </div>
+			                            <div class="col-sm-3">
+			                                <div class="form-group">
+			                                    <label>用户账号</label>
+			                                    <input name="phone" type="text"
+			                                           class="form-control input-sm"
+			                                           placeholder="搜索用户账号">
+			                                </div>
+			                            </div>
+			                        </div>
+			                    </form>
+			                    <table id="auditTable" class="table table-bordered table-striped cache_table">
+			                        <thead>
+				                        <tr>
+				                        	<th>序号</th>
+				                            <th>用户名称</th>
+				                            <th>用户类型</th>
+				                            <th>用户账号</th>
+				                            <th>用户状态</th>
+				                            <th>申请原因</th>
+				                            <th>申请时间</th>
+				                            <th>审核意见</th>
+				                            <th>审核状态</th>
+				                            <th>操作</th>
+				                        </tr>
+			                        </thead>
+			                    </table>
+				            </div>
+				            <div role="tabpanel" class="tab-pane" id="tabpanel2">
+			                    <form id="bindCardAuditForm" name="bindCardAuditForm" method="post" class="box-header">
+			                        <div class="row">
+			                            <div class="col-sm-3">
+			                                <div class="form-group">
+			                                    <label>平台名称</label>
+			                                    <input name="platformName" type="text"
+			                                           class="form-control input-sm"
+			                                           placeholder="搜索平台名称">
+			                                </div>
+			                            </div>
+			                            <div class="col-sm-3">
+			                                <div class="form-group">
+			                                    <label>账户名称</label>
+			                                    <input name="realName" type="text"
+			                                           class="form-control input-sm"
+			                                           placeholder="搜索账户名称">
+			                                </div>
+			                            </div>
+			                            <div class="col-sm-3">
+			                                <div class="form-group">
+			                                    <label>申请时间</label>
+			                                    <div class="input-group input-group-sm">
+			                                        <div class="input-group-addon">
+			                                            <i class="fa fa-calendar"></i>
+			                                        </div>
+			                                        <input name="beginTime" type="text" class="form-control datepicker"
+			                                               placeholder="从"
+			                                               data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="endTime">
+			                                    </div>
+			                                </div>
+			                            </div>
+			                            <div class="col-sm-3">
+			                                <div class="form-group">
+			                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+			                                    <div class="input-group input-group-sm range">
+			                                        <div class="input-group-addon">
+			                                            <i class="fa fa-calendar"></i>
+			                                        </div>
+			                                        <input name="endTime" type="text" class="form-control datepicker"
+			                                               placeholder="到"
+			                                               data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="beginTime">
+			                                    </div>
+			                                </div>
+			                            </div>
+			                        </div>
+			                        <div class="row">
+			                            <div class="col-sm-3">
+			                                <div class="form-group">
+			                                    <label>账户类型</label>
+			                                    <select name="accountBankType" class="form-control input-sm">
+			                                        <option value="" selected>全部</option>
+			                                        <option value="02">个人</option>
+			                                        <option value="01">企业</option>
+			                                    </select>
+			                                </div>
+			                            </div>
+			                            <div class="col-sm-3">
+			                                <div class="form-group">
+			                                    <label>审核状态</label>
+			                                    <select name="auditStatus" class="form-control input-sm">
+			                                        <option value="" selected>全部</option>
+			                                        <option value="0">待审核</option>
+			                                        <option value="1">审核通过</option>
+			                                        <option value="2">驳回</option>
+			                                    </select>
+			                                </div>
+			                            </div>
+			                        </div>
+			                    </form>
+			                    <table id="bindCardAuditTable" class="table table-bordered table-striped cache_table">
+			                        <thead>
+				                        <tr>
+				                        	<th>序号</th>
+				                            <th>平台名称</th>
+				                            <th>账户名称</th>
+				                            <th>账户类型</th>
+				                            <th>银行账号</th>
+				                            <th>开户银行</th>
+				                            <th>开户支行</th>
+				                            <th>开户地区</th>
+				                            <th>身份证号</th>
+				                            <th>手机号</th>
+				                            <th>申请时间</th>
+				                            <th>审核意见</th>
+				                            <th>审核状态</th>
+				                            <th>操作</th>
+				                        </tr>
+			                        </thead>
+			                    </table>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 审核意见模态窗 默认大小窗体 -->
+<div id="auditModal" class="modal fade item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 id="auditTitle" class="modal-title">&nbsp;</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增/编辑事件表单 -->
+				<form id="auditForm" name="auditForm" method="post">
+					<div class="form-group">
+						<label>审核意见：</label>
+						<textarea id="mark" name="" class="form-control" maxlength="80" placeholder="请输入审核意见不超过80个字" rows="5" required></textarea>
+						<div class="help-block with-errors text-red"></div>
+					</div>
+					<input name="oid" type="hidden" />
+					<input name="auditStatus" type="hidden" />
+					<input name="operatorId" type="hidden" />
+					<input name="operatorName" type="hidden" />
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" id="refusedBut" class="btn btn-primary btn-submit auditSubmit">驳 回</button>
+				<button type="button" id="passBut" class="btn btn-primary btn-submit auditSubmit">通 过</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="orderDetail" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <!-- 模态窗头部 -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 id="orderTitle" class="modal-title"></h4>
+            </div>
+            <!-- 模态窗内容体 -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                    	<p class="form-header">更改前信息:</p>
+                    	<div class="registrationAccount">
+                    		<div class="row">
+	                    		<div class="col-sm-12">
+	                    			<dl class="dl-horizontal">
+										<dt>出款账户:</dt>
+										<dd>
+											<div data-detail-fetch="oldOutputAccountName"></div>
+										</dd>
+									</dl>
+	                    		</div>
+	                    	</div>
+                    	</div>
+                    	<div class="baseInfo" id="baseInfoLeft">
+                    		
+                    	</div>
+                    	<div class="accountQuota">
+                    		<div class="row">
+	                    		<div class="col-sm-12">
+	                    			<dl class="dl-horizontal">
+										<dt>
+											<div data-detail-fetch="oldName"></div>
+										</dt>
+										<dd>
+											<div data-detail-fetch="oldBalance"></div>
+										</dd>
+									</dl>
+	                    		</div>
+	                    	</div>
+                    	</div>
+                    </div>
+                    <div class="col-sm-6" style="border-left:1px solid #e5e5e5;">
+                    	<p class="form-header">更改后信息:</p>
+                    	<div class="registrationAccount">
+                    		<div class="row">
+	                    		<div class="col-sm-12">
+	                    			<dl class="dl-horizontal">
+										<dt>出款账户:</dt>
+										<dd>
+											<div data-detail-fetch="newOutputAccountName"></div>
+										</dd>
+									</dl>
+	                    		</div>
+	                    	</div>
+	                    	<div class="row">
+	                    		<div class="col-sm-12">
+	                    			<dl class="dl-horizontal">
+										<dt>生效时间:</dt>
+										<dd>
+											<div data-detail-fetch="effectiveTimeType"></div>
+										</dd>
+									</dl>
+	                    		</div>
+	                    	</div>
+                    	</div>
+                    	<div class="baseInfo" id="baseInfoRight">
+                    		
+                    	</div>
+                    	<div class="accountQuota">
+                    		<div class="row">
+	                    		<div class="col-sm-12">
+	                    			<dl class="dl-horizontal">
+										<dt>
+											<div data-detail-fetch="oldName"></div>
+										</dt>
+										<dd>
+											<div data-detail-fetch="newBalance"></div>
+										</dd>
+									</dl>
+	                    		</div>
+	                    	</div>
+                    	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

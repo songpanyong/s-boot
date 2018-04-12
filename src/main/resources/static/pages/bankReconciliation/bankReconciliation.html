@@ -1,0 +1,133 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>银行对账</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 对账管理</a>
+		</li>
+		<li class="active">银行对账</li>
+	</ol>
+</section>
+
+<section class="content">
+	<div class="row">
+
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<div class="box-header">
+					<div class="box-tools">
+					</div>
+				</div>
+				<!-- Grid头部 -->
+				<div class="box-header with-border">
+					<form class="form-horizontal" style="margin-top: 5px" id="settlement_search_bankReconciliation" role="form" name="settlement_search_bankReconciliation">
+						<input type="text" name="hideCheckDate" id="hideCheckDate" hidden>
+						<input type="text" name="tranSn" id="tranSn" hidden>
+							<label class="col-sm-1 control-label">对账状态:</label>
+							<div class="col-sm-2">
+								<select name="reconStatus" id="reconStatus" class="form-control">
+									<option value="4" selected>全部</option>
+									<option value="0">未对账</option>
+									<option value="1">对账成功</option>
+									<option value="2">对账失败</option>
+									<option value="3">忽略</option>
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">银行类别:</label>
+							<div class="col-sm-2">
+								<select name="bankType" id="bankType" class="form-control">
+									<!--<option value=""></option>-->
+									<option value="2">平安银行</option>
+									<!--<option value="03">北京银行</option>-->
+								</select>
+							</div>
+							<label class="col-sm-1 control-label">摘要:</label>
+							<div class="col-sm-2">
+								<input type="text" name="stract" id="stract" class="form-control">
+							</div>	
+			                <label class="col-sm-1 control-label">对账日期:</label>
+			                <div class="input-group">
+			                    <div class="input-group-addon">
+			                      <i class="fa fa-calendar"></i>
+			                    </div>
+			                    <input name="tradTime" type="text" id="tradTime" 
+			                           class="form-control datepicker"
+			                           data-date-format="YYYY-MM-DD"
+			                           >
+			                </div>
+						
+							
+					</form>
+					</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+							<button class="btn btn-default" id="balanceQuery">查询</button>
+							<button class="btn btn-default" id="balance">对账</button>
+							<button class="btn btn-default" id="btGetKftRecon">发送获取对账文件请求</button>
+							<button class="btn btn-default" id="btRecon">解析对账文件</button>
+							<button class="btn btn-default" id="balanceIgnore">对账忽略</button>
+					<!-- 防重复提交 -->
+					<div id="refreshDiv1">
+					    <i id="refreshI1"></i>
+					</div>		
+					<table id="settlement_page_bankReconciliation" class="table table-bordered table-striped ">
+						<form>
+						<thead>
+							<tr>
+								<th></th>
+								<th>账号</th>
+								<th>币种</th>
+								<th>交易时间</th>
+								<th>主机流水号</th>
+								<th>银行交易流水</th>
+								<th>付款方网点号</th>
+								<th>付款方联行号</th>
+								<th>付款行名称</th>
+								<th>付款方账号</th>
+								<th>付款方户名</th>
+								<th>结算币种</th>
+								<th>交易金额</th>
+								<th>收款方网点号</th>
+								<th>收款方联行号</th>
+								<th>收款方行名</th>
+								<th>收款方账号</th>
+								<th>收款方户名</th>
+								<th>借贷标志</th>
+								<th>摘要</th>
+								<th>凭证号</th>
+								<th>手续费</th>
+								<th>邮电费</th>
+								<th>账户余额</th>
+								<th>用途附言</th>
+								<th>中文摘要</th>
+								<th>用户自定义凭证号</th>
+								<th>交易状态</th>
+								<th>对账状态</th>
+								<th>失败原因</th>
+							</tr>
+						</thead></form>
+					</table>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p>确定审批？</p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>

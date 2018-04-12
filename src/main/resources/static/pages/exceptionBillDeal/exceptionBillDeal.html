@@ -1,0 +1,319 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>异常订单处理</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i>对账管理</a></li>
+		<li class="active">异常订单处理</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<div class="box-header">
+					<!--<h3 class="box-title"></h3>
+					<div class="box-tools">
+						<button class="btn btn-primary" id="bfQuery">查询</button>
+					</div>-->
+				</div>
+				<!-- Grid头部 -->
+				<div class="box-header with-border">
+					<form id="searchForm" name="searchForm" method="post">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>订单号：</label>
+									<input name="orderNo" type="text"
+										   class="form-control input-sm"
+										   placeholder="搜索订单号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>支付流水号：</label>
+									<input name="payNo" type="text"
+										   class="form-control input-sm"
+										   placeholder="搜索支付流水号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>三方订单号：</label>
+									<input name="outsideOrderNo" type="text"
+										   class="form-control input-sm"
+										   placeholder="搜索三方订单号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>支付通道：</label>
+									<select name="channelNo" class="form-control input-sm">
+										<option value="" selected>全部</option>
+										<option value="10">宝付（认证支付）</option>
+										<option value="11">宝付（代付）</option>
+										<option value="14">宝付（网关支付）</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">	
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>用户名称：</label>
+									<input name="userName" type="text"
+										   class="form-control input-sm"
+										   placeholder="搜索用户名称">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>用户账号：</label>
+									<input name="userPhone" type="text"
+										   class="form-control input-sm"
+										   placeholder="搜索用户账号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>订单类型：</label>
+									<select name="orderType" class="form-control input-sm">
+										<option value="" selected>全部</option>
+										<option value="01">充值</option>
+										<option value="02">提现</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>异常类型：</label>
+									<select name="errorType" class="form-control input-sm">
+										<option value="" selected>全部</option>
+										<option value="状态不匹配">状态不匹配</option>
+										<option value="金额不匹配">金额不匹配</option>
+										<option value="三方订单多单">三方订单多单</option>
+										<option value="平台订单多单">平台订单多单</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>开始时间：</label>
+									<div class="input-group input-group-sm">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="beginTime" type="text" class="form-control datepicker" placeholder="从" data-date-format="YYYY-MM-DD" data-date-end="endTime">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>结束时间：</label>
+									<div class="input-group input-group-sm range"> 
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="endTime" type="text" class="form-control datepicker" placeholder="到" data-date-format="YYYY-MM-DD" data-date-begin="beginTime">
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<table id="reconciliationTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>订单号</th>
+								<th>支付流水号</th>
+								<th>订单类型</th>
+								<th>订单状态</th>
+								<th>订单金额（元）</th>
+								<th>用户名称</th>
+								<th>用户账号</th>
+								<th>&nbsp;&nbsp;&nbsp;&nbsp;支付通道&nbsp;&nbsp;&nbsp;&nbsp;</th>
+								
+								
+								<th>三方订单号</th>
+								<th>三方订单类型</th>
+								<th>三方订单状态</th>
+								<th>三方订单金额（元）</th>
+								<th>三方商户号</th>
+								
+								
+								<th>&nbsp;&nbsp;&nbsp;&nbsp;异常类型&nbsp;&nbsp;&nbsp;&nbsp;</th>
+								<th>异常处理状态</th>
+								<th>异常处理结果</th>
+								<th>申购记录</th>
+								<th>&nbsp;&nbsp;&nbsp;下单时间&nbsp;&nbsp;&nbsp;</th>
+								<th width="200px">&nbsp;&nbsp;&nbsp;更新时间&nbsp;&nbsp;&nbsp;</th>
+								<th>备注</th>
+								<th><div class="th-inner ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;操作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+<!-- 确认成功 -->
+<div id="confirmSuccessModal" class="modal fade bs-example-modal-md item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">确认成功</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="confirmSuccessForm" name="confirmSuccessForm" method="post">
+					<input type="hidden" name="oid" />
+					<div class="form-group">
+						<textarea name="remark" class="form-control input-sm" maxlength="80" placeholder="请输入修改原因不超过80个字" rows="3" required></textarea>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="confirmSuccessSubmit" type="button" class="btn btn-primary btn-submit ">确认成功</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 确认失败 -->
+<div id="configrmFailModal" class="modal fade bs-example-modal-md item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">确认失败</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="configrmFailForm" name="configrmFailForm" method="post">
+					<input type="hidden" name="oid" />
+					<div class="form-group">
+						<!--<label>确定要<span id="content"></span>申请？</label>-->
+						<textarea name="remark" class="form-control input-sm" maxlength="80" placeholder="请输入修改原因不超过80个字" rows="3" required></textarea>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button id="configrmFailCancel" type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="configrmFailSubmit" type="button" class="btn btn-primary btn-submit">确认失败</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 提示弹窗 -->
+<div id="reConfirmFailModal" class="modal fade bs-example-modal-md item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">请等待正在扣款中</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<h5>扣款成功，订单状态更新为“交易失败”</h5><!---->
+				<input type="hidden" name="oid" />
+			</div>
+			<div id="reConfirmFail" class="modal-footer">
+				<button id="reConfirmFailCancel" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button id="reConfirmFailSubmit" type="button" class="btn btn-primary btn-submit">确认失败</button>
+				<button id="reConfirmFailClose" type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 复核完成 -->
+<div id="checkCompleteModal" class="modal fade bs-example-modal-md item_box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">复核完成</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="checkCompleteApproveForm" name="checkCompleteApproveForm" method="post">
+					<input type="hidden" name="oid" />
+					<div class="form-group">
+						<textarea name="remark" class="form-control input-sm" maxlength="80" placeholder="请输入修改原因不超过80个字" rows="3" required></textarea>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button  id="checkCompleteApproveCancel" type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="checkCompleteApproveSubmit" type="button" class="btn btn-primary btn-submit">复核完成</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="applyRecordDetailModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document" style="width: 90%;">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">申购记录</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<!-- Grid头部 -->
+			<div class="box-header with-border">
+				<input type="hidden"   id="userOid" />
+			</div>
+			<!-- Grid内容体 -->
+			<div class="box-body">
+				<table id="applyRecordDetailTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>订单号</th>
+							<th>投资者名称</th>
+							<th>投资者账号</th>
+							<th>订单金额(元)</th>
+							<th>卡券类型</th>
+							<th>奖励</th>
+							<th>实付金额(元)</th>
+							<th>订单类型</th>
+							<th>订单状态</th>
+							<th>产品名称</th>
+							<th>&nbsp;&nbsp;&nbsp;创建时间&nbsp;&nbsp;&nbsp;</th>
+							<th>创建人</th>
+							<th>发行人清算状态</th>
+							<th>发行人确认状态</th>
+							<th>发行人结算状态</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,356 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+		平台登账设置
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 平台管理</a></li>
+		<li class="active">平台登账设置</li>
+	</ol>
+	<form id="platformRegistrationAccountForm" name="platformRegistrationAccountForm" method="post" style="position: absolute; top: 12px; left: 200px;">
+		<select id="platformRegistrationAccount" name="" class="form-control input-sm"></select>
+	</form>
+</section>
+
+<!-- 主要内容 -->
+<section class="content item_box">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<div class="box-header with-border">
+					<!-- 搜索条件 -->
+					<form id="searchForm" name="searchForm" method="post">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>登账事件名称：</label>
+									<input name="eventName" type="text"
+										   class="form-control input-sm"
+										   placeholder="搜索登账事件名称">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>设置状态：</label>
+									<select name="setUpStatus" class="form-control input-sm">
+										<option value="" selected>全部</option>
+										<option value="0">已生效</option>
+										<option value="1">生效中</option>
+										<option value="2">待审核</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>	
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 原搜索位 -->
+					<table id="dataTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>登账事件名称</th>
+								<th>入款账户</th>
+								<th>出款账户</th>
+								<th>设置状态</th>
+								<th>规则设置</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 登账规则设置/撤销设置 -->
+<div id="cancelModal" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">登账规则设置</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">基本信息</p>
+				<div class="row">
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>登账事件名称:</dt>
+							<dd>
+								<div data-detail-fetch="eventName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>登账事件类型:</dt>
+							<dd>
+								<div data-detail-fetch="eventType"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<p class="form-header">账户</p>
+				<div class="row">
+					<div class="col-sm-12" id="cancelInputAccountNameDiv1">
+						<dl class="dl-horizontal">
+							<dt>入款账户:</dt>
+							<dd>
+								<div data-detail-fetch="inputAccountName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div id="cancelInputAccountNameDiv2">
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>T+0入款账户:</dt>
+								<dd>
+									<div data-detail-fetch="T0InputAccountName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>T+1入款账户:</dt>
+								<dd>
+									<div data-detail-fetch="T1InputAccountName"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>出款账户:</dt>
+							<dd>
+								<div data-detail-fetch="outputAccountName"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<p class="form-header">时间设置</p>
+				<div class="row">
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>生效时间:</dt>
+							<dd>
+								<div data-detail-fetch="effectiveTimeType"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>设置状态:</dt>
+							<dd>
+								<div data-detail-fetch="setUpStatus"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>设置时间:</dt>
+							<dd>
+								<div data-detail-fetch="setUpTime"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="cancelSet" type="button" class="btn btn-primary">撤销设置</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 登账规则设置/提交设置 -->
+<div id="submitModal" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">登账规则设置</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">基本信息</p>
+				<div class="row">
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>登账事件名称:</dt>
+							<dd>
+								<div data-detail-fetch="eventName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>登账事件类型:</dt>
+							<dd>
+								<div data-detail-fetch="eventType"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<p class="form-header">账户</p>
+				<div class="row">
+					<div class="col-sm-12" id="submitInputAccountNameDiv1">
+						<dl class="dl-horizontal">
+							<dt>入款账户:</dt>
+							<dd>
+								<div data-detail-fetch="inputAccountName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div id="submitInputAccountNameDiv2">
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>T+0入款账户:</dt>
+								<dd>
+									<div data-detail-fetch="T0InputAccountName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>T+1入款账户:</dt>
+								<dd>
+									<div data-detail-fetch="T1InputAccountName"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>出款账户:</dt>
+							<dd>
+								<select id="outputAccount" name="" class="form-control input-sm"></select>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<p class="form-header">时间设置</p>
+				<div class="row">
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>生效时间:</dt>
+							<dd>
+								<select id="effectiveTimeType" name="effectiveTimeType" class="form-control input-sm">
+									<option value="01">即时生效</option>
+									<option value="02">次日生效</option>
+									<option value="03">次月生效</option>
+								</select>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="submitSet" type="button" class="btn btn-primary">提交设置</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 登账规则详情 -->
+<div id="detailModal" class="modal fade bs-example-modal-md" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">登账规则设置</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<p class="form-header">基本信息</p>
+				<div class="row">
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>登账事件名称:</dt>
+							<dd>
+								<div data-detail-fetch="eventName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-12">
+						<dl class="dl-horizontal">
+							<dt>登账事件类型:</dt>
+							<dd>
+								<div data-detail-fetch="eventType"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<p class="form-header">账户</p>
+				<div class="row">
+					<div class="col-sm-12" id="inputAccountNameDiv1">
+						<dl class="dl-horizontal">
+							<dt>入款账户:</dt>
+							<dd>
+								<div data-detail-fetch="inputAccountName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div id="inputAccountNameDiv2">
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>T+0入款账户:</dt>
+								<dd>
+									<div data-detail-fetch="T0InputAccountName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>T+1入款账户:</dt>
+								<dd>
+									<div data-detail-fetch="T1InputAccountName"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="col-sm-12" id="outputAccountNameDiv1">
+						<dl class="dl-horizontal">
+							<dt>出款账户:</dt>
+							<dd>
+								<div data-detail-fetch="outputAccountName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div id="outputAccountNameDiv2">
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>T+0出款账户:</dt>
+								<dd>
+									<div data-detail-fetch="T0OutputAccountName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-12">
+							<dl class="dl-horizontal">
+								<dt>T+1出款账户:</dt>
+								<dd>
+									<div data-detail-fetch="T1OutputAccountName"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,215 @@
+<!-- 页面头部 -->
+<style>
+	.jytreconc .form-horizontal .form-group{margin-right: 0px;margin-left: 0px;}
+	.form-horizontal .control-label{margin-bottom: 5px;}
+</style>
+<section class="content-header">
+    <h1>
+       提现审核管理
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i>指令管理</a></li>
+        <li class="active">提现审核管理</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+
+        <div class="col-xs-12">
+            <!-- Grid -->
+            <div id="dataGrid" class="box box-primary">
+                <div class="box-header">
+                	<h3 class="box-title">提现审核管理</h3>
+                    <div class="box-tools">
+                        <button class="btn btn-primary btn-sm" id="payment_search_audit">搜索</button>
+                        <button class="btn btn-primary btn-sm" id="payment_reset_audit">清空</button>
+                        <button class="btn btn-primary btn-sm" id="batchAudit">批量审核</button>
+                    </div>
+                </div>
+                <!-- Grid头部 -->
+                <div class="box-header with-border jytreconc">
+                    <form class="form-horizontal" style="margin-top: 5px" id="settlement_search_payment_audit" role="form" name="settlement_search_payment_audit">
+						
+						<div class="row">
+							<div class="form-group col-sm-3">
+								<label class="control-label">投资者名称:</label>
+								<div class="">
+									<input type="text" class="form-control" name="realName"
+										id="payment_realName_audit">
+								</div>
+								
+							</div>
+							
+							 <div class="" style="display: none;">
+	                                <select name="type" id="payment_type_audit" class="form-control">
+	                                	<option value="02" selected="selected">提现</option>
+	                               </select>
+	                            </div>
+							<div class="form-group col-sm-3">
+								<label class="control-label">投资者账号:</label>
+								<div class="">
+									<input type="text" class="form-control" name="phone"
+										id="payment_phone_audit">
+								</div>
+							</div>	
+							
+							<div class="form-group col-sm-3">
+	                            <label class="control-label">交易状态:</label>
+	                            <div class="">
+	                               <select name="commandStatus" id="payment_commandStatus_audit" class="form-control">
+	                                	<option value="">全部</option>
+	                                	<option value="0">未处理</option>
+	                                	<option value="1">交易成功</option>
+	                                	<option value="2">交易失败</option>
+	                                	<option value="3">交易处理中</option>
+	                                	<option value="4">超时</option>
+	                                	<option value="5">撤销</option>
+	                               </select>
+	                            </div>
+							</div>	
+							</div>
+							<div class="row">
+								<div class="form-group col-sm-3">
+								<label class="control-label">订单号:</label>
+								<div class="">
+									<input type="text" class="form-control" name="orderNo"
+										id="payment_orderNo_audit">
+								</div>
+							</div>	
+							<div class="form-group col-sm-3">
+								<label class="control-label">支付流水号:</label>
+	                            <div class="">
+	                            	 <input type="text" class="form-control"  name="payNo"
+	                                   id="payment_payNo_audit">
+	                            </div>
+	                           <div class="" style="display: none;">
+	                            	 <input type="text" class="form-control" name="auditStatus" id="auditStatus" value="2">
+	                            </div>
+								
+							</div>													
+						
+                    </form>
+                     <!-- 渠道列表 -->
+					<div style="display: none;">
+						<ul id="ul_Channel_Name"></ul>
+					</div>
+                </div>
+                <!-- Grid内容体 -->
+                <div class="box-body">
+                    <table id="settlement_page_payment_audit" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                        	<th></th>
+                        	<th>订单号</th>
+                        	<th>投资者名称</th>
+							<th>投资者账户</th>
+							<th>交易渠道</th>
+                        	<th>支付流水号</th>
+							<th>交易类型</th>
+                            <th>交易状态</th>
+                            <th>银行卡号</th>
+                            <th>提现金额</th>
+                            <!--<th>提现后可用余额</th>
+                            <th>用户注册时间</th>
+                            <th>用户状态</th>-->
+                            <th>修改/审核状态</th>
+                            <th>修改/审核原因</th>
+                            <th>支付/重发审核状态</th>
+                            <th>(支付/重发)/审核原因</th>
+                            <th>撤销审核状态</th>
+                            <th>撤销/审核原因</th>
+                            <th>提交审核时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="">
+                		<span>&nbsp;&nbsp;</span>
+                    	<label class="control-label">提现待审核总金额:</label>
+	                    <span type="text" id="auditAmount">0.00</span>元
+	                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	                    <label class="control-label">商户宝付基本户金额:</label>
+	                    <span type="text" id="balance">0.00</span>元
+	                    <span id="balance_err" style="color:red;"></span>
+	            </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 修改-->
+<div class="modal fade" id="audit_settlement_attEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">审核</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" method="post" id="audit_settlement_modify" name="audit_settlement_modify">
+                    <!-- <p class="title">表单属性组</p> -->
+                    <input type="hidden" id="audit_settlement_oid" />
+                     <input type="hidden" id="audit_settlement_orderNo" />
+                      <input type="hidden" id="audit_settlement_updateStatus" />
+                      <input type="hidden" id="audit_crossFlag_settlement" />
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">审核类型</label>
+                        <div class="col-sm-5">
+                            <select name="audit_type_settlement" id="audit_type_settlement" class="form-control">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">审核原因:</label>
+                        <div class="col-sm-5">
+                             <textarea class="form-control" name="reson" id="reson" placeholder="审核原因只能输入50个字符"></textarea>
+        				     <span id="batch_audit_tishi" style="color:red;"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="auditStatus_1">审核通过</button>
+                        <button type="button" class="btn btn-primary" id="auditStatus_0">审核不通过</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    	<span id="audit_resule" style="color:red;"></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 批量修改-->
+<div class="modal fade" id="batch_audit_settlement_attEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span
+                        aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">批量审核</h4>
+            </div>
+            <div class="modal-body" style="margin-bottom: 40px;">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">审核原因:</label>
+                    <div class="col-sm-9">
+                         <textarea class="form-control" name="batch_reson" id="batch_reson" placeholder="审核原因只能输入50个字符"></textarea>
+    				     <span id="audit_tishi" style="color:red;"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="batch_auditStatus_1">审核通过</button>
+                <button type="button" class="btn btn-primary" id="batch_auditStatus_0">审核不通过</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            	<span id="audit_resule" style="color:red;"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 防重复提交 -->
+<div id="refreshDiv1">
+    <i id="refreshI1"></i>
+</div>

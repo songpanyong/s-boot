@@ -1,0 +1,636 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>系统登账日志</h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 结算平台系统</a>
+		</li>
+		<li class="active">系统登账日志</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header with-border">
+					<!-- 统计数据 -->
+					<form id="searchForm1" name="searchForm1" method="post">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>订单号</label>
+									<input name="orderNo" type="text" class="form-control input-sm" placeholder="搜索订单号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>订单类型</label>
+									<select name="orderType" class="form-control input-sm">
+										<option value="" selected>全部</option>
+										<option value="investT0">快申</option>
+										<option value="investT1">申购</option>
+										<option value="redeemT0">快赎</option>
+										<option value="redeemT1">赎回</option>
+										<option value="conversionRedeem">转换-赎回</option>
+										<option value="conversionInvest">转换-申购</option>
+										<option value="repayCapitalWithInterest">还本付息</option>
+										<option value="windUpRedeem">清盘赎回</option>
+										<option value="dividend">现金分红</option>
+										<option value="recharge">充值</option>
+										<option value="withdraw">提现</option>
+										<option value="useRedPacket">红包</option>
+										<option value="rebate">返佣</option>
+										<option value="reFund">退款</option>
+										<option value="RaiseFailureReFund">募集失败退款</option>
+										<option value="transfer">转账</option>
+										<option value="netting">轧差</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>请求时间</label>
+									<div class="input-group input-group-sm">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="startTime" type="text"
+											   class="form-control datepicker input-sm"
+											   placeholder="从"
+											   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="endTime">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<div class="input-group daterange input-group-sm">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="endTime" type="text"
+											   class="form-control datepicker input-sm"
+											   placeholder="到"
+											   data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="startTime">
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<table id="dataTable1" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>订单号</th>
+								<th>订单类型</th>
+								<th>订单金额(元)</th>
+								<th>订单状态</th>
+								<th>用户账号</th>
+								<th>来源系统</th>
+								<th>请求时间</th>
+								<th>请求描述</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div id="detailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class=" modal-title">请求详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>用户名称:</dt>
+							<dd>
+								<div data-detail-fetch="userName"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>用户账号:</dt>
+							<dd>
+								<div data-detail-fetch="phone"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>用户类型:</dt>
+							<dd>
+								<div data-detail-fetch="userTypeDisp"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>订单号:</dt>
+							<dd>
+								<div data-detail-fetch="orderNo"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>订单类型:</dt>
+							<dd>
+								<div data-detail-fetch="orderTypeDisp"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>订单状态:</dt>
+							<dd>
+								<div data-detail-fetch="orderStatusDisp"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>下单时间:</dt>
+							<dd>
+								<div data-detail-fetch="submitTime"></div>
+							</dd>
+						</dl>
+					</div>
+					<div id="balanceDiv1" class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>订单金额:</dt>
+							<dd>
+								<div class="currency" data-detail-fetch="balance"></div>
+							</dd>
+						</dl>
+					</div>
+					<div id="balanceDiv2" class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>订单金额:</dt>
+							<dd>
+								<div class="currency" data-detail-fetch="balance2"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>系统来源:</dt>
+							<dd>
+								<div data-detail-fetch="systemSource"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div id="detailDiv1" class="detailDivs">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品名称:</dt>
+								<dd>
+									<div data-detail-fetch="relationProductName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>用户实付:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="balance"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>续投解冻:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="continUnfreezBalance"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>代金券金额:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="voucher"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>平台服务费:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="fee"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>失败详情:</dt>
+								<dd>
+									<div data-detail-fetch="failDetail"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>订单描述:</dt>
+								<dd>
+									<div data-detail-fetch="remark"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div id="detailDiv2" class="detailDivs">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品名称:</dt>
+								<dd>
+									<div data-detail-fetch="relationProductName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>用户实付:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="balance"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>代金券金额:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="voucher"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>平台服务费:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="fee"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>失败详情:</dt>
+								<dd>
+									<div data-detail-fetch="failDetail"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>订单描述:</dt>
+								<dd>
+									<div data-detail-fetch="remark"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div id="detailDiv3" class="detailDivs">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品名称:</dt>
+								<dd>
+									<div data-detail-fetch="relationProductName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>用户实收:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="receivables"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>加息券收益/体验金收益:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="rateBalance"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>平台服务费:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="fee"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>失败详情:</dt>
+								<dd>
+									<div data-detail-fetch="failDetail"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>订单描述:</dt>
+								<dd>
+									<div data-detail-fetch="remark"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div id="detailDiv4" class="detailDivs">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品名称:</dt>
+								<dd>
+									<div data-detail-fetch="relationProductName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>用户实收:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="receivables"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>加息券收益:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="rateBalance"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>平台服务费:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="fee"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>失败详情:</dt>
+								<dd>
+									<div data-detail-fetch="failDetail"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>订单描述:</dt>
+								<dd>
+									<div data-detail-fetch="remark"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div id="detailDiv5" class="detailDivs">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品名称:</dt>
+								<dd>
+									<div data-detail-fetch="relationProductName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>用户实付:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="balance"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>续投解冻:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="continUnfreezBalance"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>平台服务费:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="fee"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>失败详情:</dt>
+								<dd>
+									<div data-detail-fetch="failDetail"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>订单描述:</dt>
+								<dd>
+									<div data-detail-fetch="remark"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div id="detailDiv6" class="detailDivs">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品名称:</dt>
+								<dd>
+									<div data-detail-fetch="relationProductName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>用户实收:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="receivables"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>代金券金额:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="voucher"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>失败详情:</dt>
+								<dd>
+									<div data-detail-fetch="failDetail"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>订单描述:</dt>
+								<dd>
+									<div data-detail-fetch="remark"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div id="detailDiv7" class="detailDivs">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品名称:</dt>
+								<dd>
+									<div data-detail-fetch="relationProductName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>失败详情:</dt>
+								<dd>
+									<div data-detail-fetch="failDetail"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>订单描述:</dt>
+								<dd>
+									<div data-detail-fetch="remark"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div id="detailDiv8" class="detailDivs">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>失败详情:</dt>
+								<dd>
+									<div data-detail-fetch="failDetail"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>订单描述:</dt>
+								<dd>
+									<div data-detail-fetch="remark"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<div id="detailDiv9" class="detailDivs">
+					<div class="row">
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>产品名称:</dt>
+								<dd>
+									<div data-detail-fetch="relationProductName"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>用户实收:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="receivables"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>代金券金额:</dt>
+								<dd>
+									<div class="currency" data-detail-fetch="voucher"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>失败详情:</dt>
+								<dd>
+									<div data-detail-fetch="failDetail"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="col-sm-6">
+							<dl class="dl-horizontal">
+								<dt>订单描述:</dt>
+								<dd>
+									<div data-detail-fetch="remark"></div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+				</div>
+				<h4>登账明细</h4>
+				<div class="row">
+					<div class="col-xs-12">
+						<div id="" class="box box-primary">
+							<div class="box-body">
+								<table id="dataTable2" class="table table-bordered table-striped">
+									<thead>
+										<tr>
+											<th>序号</th>
+											<th>请求流水号</th>
+											<th>支付流水号</th>
+											<th>登账事件编号</th>
+											<th>登账事件名称</th>
+											<th>登账金额(元)</th>
+											<th>登账状态</th>
+											<th>出款方</th>
+											<th>收款方</th>
+											<th>来源系统</th>
+											<th>登账时间</th>
+											<th>登账描述</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

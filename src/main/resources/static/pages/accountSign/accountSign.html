@@ -1,0 +1,144 @@
+<!-- 页面头部 -->
+<section class="content-header">
+    <h1>
+        绑卡查询
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i>账户账务系统</a></li>
+        <li class="active">绑卡查询</li>
+    </ol>
+</section>
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="accountSignGrid" class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">绑卡列表</h3>
+					<div class="box-tools">
+						<button id="clear" class="btn btn-primary btn-sm">清空</button>
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<form id="searchForm" name="searchForm" method="post" class="search-body">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>用户账号:</label>
+			                         <input type="text" class="form-control input-sm" id="phone" name="phone" placeholder="搜索用户账号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>用户名称:</label>
+			                         <input type="text" class="form-control input-sm" id="realName" name="realName" placeholder="搜索用户名称">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>用户类型</label>
+									<select name="userType" class="form-control input-sm">
+										<option selected="selected" value="">全部</option>
+										<option value="T1">投资人</option>
+										<option value="T2">发行人</option>
+										<option value="T3">平台</option>
+									</select>
+									
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>预留手机号:</label>
+			                         <input type="text" class="form-control input-sm" id="reservedCellPhone" name="reservedCellPhone" placeholder="搜索手机号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>绑卡类型</label>
+									<select name="cardType" class="form-control input-sm">
+										<option selected="selected" value="">全部</option>
+										<option value="个人">个人</option>
+										<option value="企业">企业</option>
+									</select>
+									
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>创建时间</label>
+									<div class="input-group input-group-sm">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="startTime" type="text" class="form-control datepicker" placeholder="从" data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="endTime">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<div class="input-group input-group-sm range">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="endTime" type="text" class="form-control datepicker" placeholder="到" data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="startTime">
+									</div>
+								</div>
+							</div>	
+							<!--<div class="col-sm-3">
+								<div class="form-group">
+									<label>身份证号:</label>
+			                         <input type="text" class="form-control input-sm" id="identityNo" name="identityNo" placeholder="搜索身份证号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>银行卡号:</label>
+			                         <input type="text" class="form-control input-sm" id="bankCard" name="bankCard" placeholder="搜索银行卡号">
+								</div>
+							</div>
+						</div>
+						<div class="row">							
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>绑卡状态:</label>
+										<select name="status" class="form-control input-sm" id="account_elem_status">
+										<option value="">全部</option>
+										<option value="1">已绑卡</option>
+										<option value="2">已解绑</option>
+									</select>
+								</div>
+							</div>
+						</div>-->
+					</form>
+					<div class="box-body">
+					<!-- 主体数据表格 -->
+					<table id="account_sign_Table" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                        	<th>序号</th>
+                        	<th>用户账号</th>
+                            <th>用户名称</th>
+                            <th>用户类型</th>
+                            <th>开户银行</th>
+                            <th>证件类型</th>
+                            <th>证件号码</th>
+                            <th>开户名称</th>
+                            <th>预留手机号</th>
+                            <th>银行卡号</th>
+                            <th>绑卡类型</th>
+                            <th>绑卡状态</th>
+                            <th>创建时间</th>
+                        </tr>
+                        </thead>
+                    </table>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+

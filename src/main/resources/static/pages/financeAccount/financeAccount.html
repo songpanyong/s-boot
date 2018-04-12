@@ -1,0 +1,537 @@
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    账户列表
+  </h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i>账户账务系统</a>
+		</li>
+		<li class="active">账户列表</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div id="financeAccountGrid" class="box box-primary">
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 搜索项表单 -->
+					<div class="row">
+						<form id="searchForm" name="searchForm" method="post" class="search-body">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>用户账号</label>
+									<input name="phone" type="text" class="form-control input-sm" placeholder="搜索用户账号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>账户编号</label>
+									<input name="accountNo" type="text" class="form-control input-sm" placeholder="搜索账号编号">
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>用户类型</label>
+									<select name="userType" class="form-control input-sm userType">
+										<option value="" selected="selected">全部</option>
+										<option value="T1">投资人</option>
+										<option value="T2">发行人</option>
+										<option value="T3">平台</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>账户类型</label>
+									<select name="accountType" class="form-control input-sm accountType">
+										<option selected="selected" value="">全部</option>
+										<!--<option value="01">活期户</option>
+										<option value="02">活期利息户</option>
+										<option value="03">体验金</option>-->
+										<!--<option value="04">在途户</option>-->
+										<option value="05">提现冻结户</option>
+										<option value="07">产品户</option>
+										<option value="08">备付金户</option>
+										<!--<option value="06">定期户</option>
+										<option value="09">超级户</option>-->
+										<option value="10">基本户</option>
+										<!--<option value="11">运营户</option>-->
+										<option value="12">归集清算户</option>
+										<!--<option value="13">可用金户</option>-->
+										<!--<option value="14">充值冻结户</option>-->
+										<option value="15">资金冻结户</option>
+										<option value="17">续投冻结户</option>
+									</select>
+								</div>
+							</div>
+							<!--<div class="col-sm-3">
+								<div class="form-group">
+									<label>开户日期</label>
+									<div class="input-group input-group-sm">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="openTimeBegin" type="text" class="form-control datepicker" placeholder="从" data-date-format="YYYY-MM-DD HH:mm:ss">
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>&nbsp;</label>
+									<div class="input-group input-group-sm range">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input name="openTimeEnd" type="text" class="form-control datepicker" placeholder="到" data-date-format="YYYY-MM-DD HH:mm:ss">
+									</div>
+								</div>
+							</div>-->
+							
+							<!--<div class="col-sm-3">
+								<div class="form-group">
+									<label>状态</label>
+									<select name="status" class="form-control input-sm">
+										<option selected="selected" value="">全部</option>
+										<option value="SAVE">保存</option>
+										<option value="SUBMIT">提交</option>
+										<option value="VALID">生效</option>
+										<option value="SEALING">封存中</option>
+										<option value="SEALED">封存</option>
+									</select>
+								</div>
+							</div>-->
+						</form>
+					</div>
+					<!-- 主体数据表格 -->
+					<table id="financeAccountTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>用户名称</th>
+								<th>用户账号</th>
+								<th>用户类型</th>
+								<th>账户编号</th>
+								<th>账户类型</th>
+								<th>账户余额</th>
+								<th>账户可用额度</th>
+								<th>账户授信额度</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 操作confirm窗 使用 $$.confirm 初始化 -->
+<div id="doConfirm" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title">提示</h3>
+	<div class="popover-content">
+		<p id="confirmTitle"></p>
+		<p id="confirmTitle1"></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 详情弹窗 -->
+<div id="accountDetailModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">账户详情</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>用户类型:</dt>
+							<dd>
+								<div data-detail-fetch="userTypeStr"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>用户名称:</dt>
+							<dd>
+								<div data-detail-fetch="userName"></div>
+							</dd>
+						</dl>
+					</div>					
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>用户账号:</dt>
+							<dd>
+								<div data-detail-fetch="phone"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>账户名称:</dt>
+							<dd>
+								<div data-detail-fetch="accountName"></div>
+							</dd>
+						</dl>
+					</div>					
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>账户类型:</dt>
+							<dd>
+								<div data-detail-fetch="accountTypeStr"></div>
+							</dd>
+						</dl>
+					</div>
+					<div class="col-sm-6">
+						<dl class="dl-horizontal">
+							<dt>账户编号:</dt>
+							<dd>
+								<div data-detail-fetch="accountNo"></div>
+							</dd>
+						</dl>
+					</div>					
+				</div>
+				<!--<div class="row">
+					<div class="col-sm-10">
+						<dl class="dl-horizontal">
+							<dt>关联产品:</dt>
+							<dd>
+								<div data-detail-fetch="relationProductName"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>-->
+				<div class="row">
+					<div class="col-sm-10">
+						<dl class="dl-horizontal">
+							<dt>开户时间:</dt>
+							<dd>
+								<div data-detail-fetch="openTime"></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 修改账户弹窗 -->
+<div id="updateAccountModal" data-backdrop="static" class="modal fade bs-example-modal-mg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-mg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">修改账户</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增事件表单 -->
+				<form id="updateAccountForm" name="updateAccountForm" method="post">
+					<input name="oid" type="hidden">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>用户类型</label>
+								<select name="userType" class="form-control input-sm" disabled="disabled">
+									<option value="T2">发行人</option>
+									<!--<option value="T3">平台</option>-->
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>用户ID</label>
+								<input name="userOid" required="required" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>用户名称</label>
+								<input name="userName" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>账户类型</label>
+								<select name="accountType" class="form-control input-sm">
+									<option selected="selected" value="01">活期户</option>
+									<option value="02">活期利息户</option>
+									<option value="03">体验金</option>
+									<option value="04">在途户</option>
+									<option value="05">提现冻结户</option>
+									<option value="06">定期户</option>
+									<option value="07">产品户</option>
+									<option value="08">备付金户</option>
+									<option value="09">超级户</option>
+									<option value="10">基本户</option>
+									<option value="11">运营户</option>
+									<option value="12">清算户</option>
+									<option value="13">可用金户</option>
+									<option value="14">充值冻结户</option>
+									<option value="15">资金冻结户</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>关联产品</label>
+								<select id="addRelationProductName" name="relationProductName" class="form-control input-sm">
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>是否提交</label>
+								<div class="row form-style">
+									<div class="col-sm-3">
+										<input name="submitType" type="radio" value="SUBMIT" class="icheck"> 是
+									</div>
+									<div class="col-sm-3">
+										<input name="submitType" type="radio" value="SAVE" class="icheck" checked> 否
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="updateAccountSubmit" type="button" class="btn btn-primary btn-submit updateAccountSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 详情弹窗 -->
+<div id="accountModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">修改账户</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 投资人账户修改弹窗 -->
+<div id="editAccountModal" data-backdrop="static" class="modal fade bs-example-modal-mg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-mg" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">修改账户</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<!-- 新增事件表单 -->
+				<form id="editAccountForm" name="editAccountForm" method="post">
+					<input name="oid" type="hidden">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>用户类型</label>
+								<select name="userType" class="form-control input-sm" disabled="disabled">
+									<option value="T1">投资人</option>
+									<option value="T2">发行人</option>
+									<!--<option value="T3">平台</option>-->
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>用户ID</label>
+								<input name="userOid" required="required" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>用户名称</label>
+								<input name="userName" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>手机号</label>
+								<input name="phone" type="text" class="form-control input-sm" maxlength="20" placeholder="手机号">
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>关联产品</label>
+								<select id="addRelationProductName" name="relationProductName" class="form-control input-sm">
+								</select>
+								<div class="help-block with-errors text-red"></div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>账户类型</label>
+								<select name="accountType" class="form-control input-sm" disabled="disabled">
+									<option selected="selected" value="01">活期户</option>
+									<option value="02">活期利息户</option>
+									<option value="03">体验金</option>
+									<option value="04">在途户</option>
+									<option value="05">提现冻结户</option>
+									<option value="06">定期户</option>
+									<option value="07">产品户</option>
+									<option value="08">备付金户</option>
+									<option value="09">超级户</option>
+									<option value="10">基本户</option>
+									<option value="11">运营户</option>
+									<option value="12">清算户</option>
+									<option value="13">可用金户</option>
+									<option value="14">充值冻结户</option>
+									<option value="15">资金冻结户</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>账户编号</label>
+								<input name="accountNo" required="required" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>账户名称</label>
+								<input name="accountName" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>开户时间</label>
+								<input name="openTime" type="text" class="form-control input-sm" readonly="readonly">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<label>备注</label>
+								<textarea name="remark" rows="3" class="form-control input-sm" maxlength="512" placeholder="备注"></textarea>
+							</div>
+						</div>
+					</div>
+
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+				<button id="editAccountSubmit" type="button" class="btn btn-primary btn-submit editAccountSubmit">保 存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 详情弹窗 -->
+<div id="accountSetModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-md" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">账户设置</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="col-sm-4"><label>用户名称:</label></div>
+						<div class="col-sm-8" data-detail-fetch="userName"></div>
+					</div><br><br />
+					<div class="col-sm-12">
+						<div class="col-sm-4"><label>用户类型:</label></div>
+						<div class="col-sm-8" data-detail-fetch="userTypeStr"></div>
+					</div><br><br />
+					<div class="col-sm-12">
+						<div class="col-sm-4"><label>账户名称:</label></div>
+						<div class="col-sm-8" data-detail-fetch="accountName" id="accountName"></div>
+					</div><br><br />
+					<div class="col-sm-12">
+						<div class="col-sm-4"><label>账户编号:</label></div>
+						<div class="col-sm-8" data-detail-fetch="accountNo" id="accountNo"></div>
+					</div><br><br />
+					<div class="col-sm-12">
+						<div class="col-sm-4"><label>账户余额:</label></div>
+						<div class="col-sm-8" data-detail-fetch="balance"></div>
+					</div><br><br />
+					<div class="col-sm-12">
+						<div class="col-sm-4"><label>账户授信额度:</label></div>
+						<div class="col-sm-8"><input type="hidden" id="oldBalance"/><input type="text" id="newBalance" maxlength="14" onkeyup="value=value.replace(/[^\d]/g,'') " ng-pattern="/[^a-zA-Z]/"/>元</div>
+					</div><br><br />
+					<div class="col-sm-12" hidden="hidden">
+						<div class="col-sm-4"><label>用户id:</label></div>
+						<div class="col-sm-8" data-detail-fetch="userOid" id="userOid"></div>
+					</div><br><br />
+				</div>
+				<div class="text-right">
+					<button class="btn btn-primary accept" data-dismiss="modal" id="applyAudit">申请变更</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

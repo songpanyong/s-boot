@@ -1,0 +1,313 @@
+<!-- 页面头部 -->
+<style>
+	.jytreconc .form-horizontal .form-group{margin-right: 0px;margin-left: 0px;}
+	.form-horizontal .control-label{margin-bottom: 5px;}
+</style>
+<section class="content-header">
+	<h1>提现审核结果查询</h1>
+	<ol class="breadcrumb">
+		<li><a href="javascript:void(0)"><i class="fa fa-dashboard"></i>指令管理</a></li>
+		<li class="active">提现审核结果查询</li>
+	</ol>
+</section>
+<section class="content">
+	<div class="row">
+
+		<div class="col-xs-12">
+			<!-- Grid -->
+			<div id="dataGrid" class="box box-primary">
+				<div class="box-header">
+					<h3 class="box-title">提现审核结果查询</h3>
+					<div class="box-tools">
+						<button class="btn btn-primary btn-sm" id="payment_search">搜索</button>
+						<button class="btn btn-primary btn-sm" id="payment_reset">清空</button>
+						
+					</div>
+				</div>
+				<!-- Grid头部 -->
+				<div class="box-header with-border jytreconc">
+					<form style="margin-top: 5px" id="settlement_search_payment" role="form" name="settlement_search_payment">
+						
+						<div class="row">
+							<div class="form-group col-sm-3">
+								<label class="control-label">投资者名称:</label>
+								<div class="">
+									<input type="text" class="form-control" name="realName"
+										id="payment_realName">
+								</div>
+								<!--<label class="col-sm-1 control-label">交易类型:</label>-->
+								<div class="" style="display: none;">
+									<select name="type" id="payment_type" class="form-control">
+										<option value="">全部</option>
+										<option value="01" >充值</option>
+										<option value="02" selected="selected">提现</option>
+									</select>
+								</div>
+
+							</div>
+							<div class="form-group col-sm-3">
+	                        	<label class="control-label">投资者账户:</label>
+	                            <div class="">
+	                            	 <input type="text" class="form-control"  name="phone"
+	                                   id="payment_phone">
+	                            </div>
+							</div>
+							<div class="form-group col-sm-3">
+								<label class="control-label">审核状态:</label>
+								<div class="">
+									<select name="auditStatus" id="payment_auditStatus" class="form-control">
+										<option value="1" selected="selected">审核通过</option>
+										<option value="2">提交审核</option>
+										<option value="0">审核不通过</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group col-sm-3">
+								<label class="control-label">交易状态:</label>
+								<div class="">
+									<select name="commandStatus" id="payment_commandStatus"
+										class="form-control">
+										<option value="">全部</option>
+										<option value="0">未处理</option>
+										<option value="1">交易成功</option>
+										<option value="2">交易失败</option>
+										<option value="3">交易处理中</option>
+										<option value="4">超时</option>
+										<option value="5">撤销</option>
+									</select>
+								</div>
+							</div>
+							
+							
+						</div>
+						<div class="row">
+							<div class="form-group col-sm-3">
+								<label class="control-label">订单号:</label>
+								<div class="">
+									<input type="text" class="form-control" name="orderNo"
+										id="payment_orderNo">
+								</div>
+							</div>
+							<div class="form-group col-sm-3">
+	
+								 <label class="control-label">支付流水号:</label>
+	                            <div class="">
+	                            	 <input type="text" class="form-control"  name="payNo"
+	                                   id="payment_payNo">
+	                            </div>
+	
+							</div>
+							
+						</div>
+
+					</form>
+					<!-- 渠道列表 -->
+					<div style="display: none;"><ul id="ul_Channel_Name"></ul></div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<table id="settlement_page_payment"
+						class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>订单号</th>
+								<th>投资者名称</th>
+								<th>投资者账户</th>
+								<th>交易渠道</th>
+								<th>支付流水号</th>
+								<th>交易金额</th>
+								<th>交易类型</th>
+								<th>交易状态</th>					
+								<th>错误详情</th>
+								<th>修改/审核状态</th>
+								<th>修改/审核原因</th>
+								<th>支付/重发审核状态</th>
+								<th>(支付/重发)/审核原因</th>
+								<th>撤销审核状态</th>
+								<th>撤销/审核原因</th>
+								<th>&nbsp;&nbsp;&nbsp;&nbsp;修改时间</th>
+								<th>审核状态</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<!-- 指令交互日志-->
+<div class="modal fade itemEdit" tabindex="-1" id="settlement_log"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title">指令订单下的交互日志</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table table-bordered table-striped"
+					id="settlement_table">
+				</table>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
+<!--
+	作者：wangyiping@guohuaigroup.com
+	时间：2016-11-25
+	描述：单笔支付
+-->
+<div id="payment_pay_input" class="popover func-delete-popover"
+	style="min-width: 300px;">
+	<div class="arrow"></div>
+	<h3 class="popover-title">单笔支付</h3>
+	<div class="popover-content">
+		<form class="form-horizontal" method="post" id="payModify"
+			name="paymentModify">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">支付原因:</label>
+				<div class="col-sm-8">
+					<textarea class="form-control" name="operatorReson"
+						id="pay_operatorReson" placeholder="支付原因只能输入50个字符"></textarea>
+					<span id="pay_tishi" style="color: red;"></span>
+				</div>
+			</div>
+		</form>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" id="pay_m"
+					data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel"
+					data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!--
+	作者：wangyiping@guohuaigroup.com
+	时间：2016-11-25
+	描述：失败重发
+-->
+<div id="payment_fial_input" class="popover func-delete-popover"
+	style="min-width: 300px;">
+	<div class="arrow"></div>
+	<h3 class="popover-title">失败重发</h3>
+	<div class="popover-content">
+		<form class="form-horizontal" method="post" id="failModify"
+			name="paymentModify">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">重发原因:</label>
+				<div class="col-sm-8">
+					<textarea class="form-control" name="operatorReson"
+						id="fial_operatorReson" placeholder="重发原因只能输入50个字符"></textarea>
+					<span id="fial_tishi" style="color: red;"></span>
+				</div>
+			</div>
+		</form>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" id="fail_m"
+					data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel"
+					data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!--
+	作者：wangyiping@guohuaigroup.com
+	时间：2016-11-25
+	描述：撤回
+-->
+<div id="payment_reset_input" class="popover func-delete-popover"
+	style="min-width: 300px;">
+	<div class="arrow"></div>
+	<h3 class="popover-title">撤回</h3>
+	<div class="popover-content">
+		<form class="form-horizontal" method="post" id="resetModify"
+			name="paymentModify">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">撤回原因:</label>
+				<div class="col-sm-8">
+					<textarea class="form-control" name="resetOpertatorReson"
+						id="reset_resetOpertatorReson" placeholder="撤回原因只能输入50个字符"></textarea>
+					<span id="reset_tishi" style="color: red;"></span>
+				</div>
+			</div>
+		</form>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" id="reset_m"
+					data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel"
+					data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div id="payment_update_input" class="popover func-delete-popover"
+	style="min-width: 300px;">
+	<div class="arrow"></div>
+	<h3 class="popover-title">修改状态</h3>
+	<div class="popover-content">
+		<form class="form-horizontal" method="post" id="updateModify"
+			name="paymentModify">
+			<div class="form-group">
+				<label class="col-sm-4 control-label">修改状态:</label>
+				<div class="col-sm-6">
+					<select name="updateStatus" id="payment_updateStatus"
+						class="form-control">
+						<option value="0">未处理</option>
+						<option value="1">交易成功</option>
+						<option value="2">交易失败</option>
+						<option value="3">交易处理中</option>
+						<option value="4">超时</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label">修改原因:</label>
+				<div class="col-sm-8">
+					<textarea class="form-control" name="updateReson"
+						id="payment_updateReson" placeholder="修改原因只能输入50个字符"></textarea>
+					<span id="update_tishi" style="color: red;"></span>
+				</div>
+			</div>
+		</form>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" id="update_m"
+					data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit">
+				<button class="btn btn-block btn-default cancel"
+					data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+

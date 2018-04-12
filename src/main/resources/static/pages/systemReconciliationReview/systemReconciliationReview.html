@@ -1,0 +1,570 @@
+<!-- 页面头部 -->
+<section class="content-header">
+    <h1>订单录入审核</h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="javascript:void(0)"><i class="fa fa-dashboard"></i> 账户账务系统</a>
+        </li>
+        <li class="active">订单录入审核</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="nav-tabs-custom">
+        <ul id="mainTab" class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#tabpanel1" role="tab" data-toggle="tab" id="tab1">订单审核</a>
+            </li>
+            <li role="presentation">
+                <a href="#tabpanel2" role="tab" data-toggle="tab" id="tab2">订单审核记录</a>
+            </li>
+        </ul>
+
+        <div class="tab-content p0">
+            <div role="tabpanel" class="tab-pane active" id="tabpanel1">
+                <div class="box-header">
+                    <h3 class="box-title">&nbsp;</h3>
+                    <div class="box-tools">
+                        <button class="btn btn-primary btn-sm" id="search_order_review_search">搜索</button>
+                        <button class="btn btn-primary btn-sm" id="search_order_review_reset">清空</button>
+                    </div>
+                </div>
+                <div class="box-header with-border">
+                    <form id="searchOrderReviewForm" name="searchOrderReviewForm" method="post">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>订单号</label>
+                                    <input name="orderNo" type="text"
+                                           class="form-control input-sm"
+                                           placeholder="搜索订单号">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>支付流水号</label>
+                                    <input name="payNo" type="text"
+                                           class="form-control input-sm"
+                                           placeholder="搜索支付流水号">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>用户名称</label>
+                                    <input name="realName" type="text"
+                                           class="form-control input-sm"
+                                           placeholder="搜索用户名称">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>用户账号</label>
+                                    <input name="phone" type="text"
+                                           class="form-control input-sm"
+                                           placeholder="搜索用户账号">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>订单金额</label>
+                                    <input name="limitAmount" type="text"
+                                           class="form-control input-sm"
+                                           placeholder="从">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <input name="maxAmount" type="text"
+                                           class="form-control input-sm"
+                                           placeholder="到" data-begin="limitAmount">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>申请时间</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input name="beginTime" type="text" class="form-control datepicker"
+                                               placeholder="从"
+                                               data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="endTime">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <div class="input-group input-group-sm range">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input name="endTime" type="text" class="form-control datepicker"
+                                               placeholder="到"
+                                               data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="beginTime">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>订单类型</label>
+                                    <select name="type" class="form-control input-sm">
+                                        <option value="" selected>全部</option>
+                                        <option value="01">充值</option>
+                                        <option value="02">提现</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="box-body">
+                    <table id="orderReviewTable" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>支付流水号</th>
+                            <th>订单类型</th>
+                            <th>订单状态</th>
+                            <th>订单金额</th>
+                            <th>手续费</th>
+                            <th>系统来源</th>
+                            <th>用户名称</th>
+                            <th>用户账号</th>
+                            <th>用户类型</th>
+                            <th>支付通道</th>
+                            <th>&nbsp;&nbsp;&nbsp;&nbsp;申请时间&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th>
+                                <div class="th-inner ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;操作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane " id="tabpanel2">
+                <div class="box-header">
+                    <h3 class="box-title">&nbsp;</h3>
+                    <div class="box-tools">
+                        <button class="btn btn-primary btn-sm" id="search_order_record_search">搜索</button>
+                        <button class="btn btn-primary btn-sm" id="search_order_record_reset">清空</button>
+                    </div>
+                </div>
+                <div class="box-header with-border">
+                    <form id="searchOrderRecordForm" name="searchOrderRecordForm" method="post">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>订单号</label>
+                                    <input name="orderNo" type="text"
+                                           class="form-control input-sm"
+                                           placeholder="搜索订单号">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>支付流水号</label>
+                                    <input name="payNo" type="text"
+                                           class="form-control input-sm"
+                                           placeholder="搜索支付流水号">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>用户名称</label>
+                                    <input name="realName" type="text"
+                                           class="form-control input-sm"
+                                           placeholder="搜索用户名称">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>用户账号</label>
+                                    <input name="phone" type="text"
+                                           class="form-control input-sm"
+                                           placeholder="搜索用户账号">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>订单类型</label>
+                                    <select name="type" class="form-control input-sm">
+                                        <option value="" selected>全部</option>
+                                        <option value="01">充值</option>
+                                        <option value="02">提现</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>审核状态</label>
+                                    <select name="auditStatus" class="form-control input-sm">
+                                        <option value="" selected>全部</option>
+                                        <option value="2">审核通过</option>
+                                        <option value="3">驳回</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>申请时间</label>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input name="beginTime" type="text" class="form-control datepicker"
+                                               placeholder="从"
+                                               data-date-format="YYYY-MM-DD HH:mm:ss" data-date-end="endTime">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <div class="input-group input-group-sm range">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input name="endTime" type="text" class="form-control datepicker"
+                                               placeholder="到"
+                                               data-date-format="YYYY-MM-DD HH:mm:ss" data-date-begin="beginTime">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>订单金额</label>
+                                    <input name="limitAmount" type="text"
+                                           class="form-control input-sm"
+                                           placeholder="从">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <input name="maxAmount" type="text"
+                                           class="form-control input-sm"
+                                           placeholder="到" data-begin="limitAmount">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="box-body">
+                    <table id="orderRecordTable" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>支付流水号</th>
+                            <th>订单类型</th>
+                            <th>订单状态</th>
+                            <th>订单金额</th>
+                            <th>手续费</th>
+                            <th>系统来源</th>
+                            <th>用户名称</th>
+                            <th>用户账号</th>
+                            <th>用户类型</th>
+                            <th>支付通道</th>
+                            <th>&nbsp;&nbsp;&nbsp;&nbsp;申请时间&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                            <th>审核意见</th>
+                            <th>审核状态</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="orderDetail" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <!-- 模态窗头部 -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">订单详情</h4>
+            </div>
+            <!-- 模态窗内容体 -->
+            <div class="modal-body">
+                <form id="detailForm" name="detailForm" method="post">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>用户名称:</dt>
+                                <dd>
+                                    <div data-detail-fetch="realName"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>用户账号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="phone"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>用户类型:</dt>
+                                <dd>
+                                    <div data-detail-fetch="userType"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="orderNo"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>系统来源:</dt>
+                                <dd>
+                                    <div data-detail-fetch="systemSource"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单金额:</dt>
+                                <dd>
+                                    <div data-detail-fetch="amount"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>手续费:</dt>
+                                <dd>
+                                    <div data-detail-fetch="fee"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单类型:</dt>
+                                <dd>
+                                    <div data-detail-fetch="type"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单状态:</dt>
+                                <dd>
+                                    <div data-detail-fetch="status"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>下单时间:</dt>
+                                <dd>
+                                    <div data-detail-fetch="receiveTime"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>申请时间:</dt>
+                                <dd>
+                                    <div data-detail-fetch="createTime"></div>
+                                </dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>审核时间:</dt>
+                                <dd>
+                                    <div data-detail-fetch="updateTime"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>操作员:</dt>
+                                <dd>
+                                    <div data-detail-fetch="operatorName"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>审核状态:</dt>
+                                <dd>
+                                    <div data-detail-fetch="auditStatus"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>商户号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="memberId"></div>
+                                </dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>支付通道:</dt>
+                                <dd>
+                                    <div data-detail-fetch="channel"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>银行账号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="cardNo"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>失败详情:</dt>
+                                <dd>
+                                    <div data-detail-fetch="failDetail"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>请求流水号:</dt>
+                                <dd>
+                                    <div data-detail-fetch="requestNo"></div>
+                                </dd>
+                            </dl>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <dl class="dl-horizontal">
+                                <dt>订单描述:</dt>
+                                <dd>
+                                    <div data-detail-fetch="describ"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>支付流水号:</dt>
+                            <dd>
+                                <div data-detail-fetch="payNo"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>备注:</dt>
+                            <dd>
+                                <div data-detail-fetch="remark"
+                                     style="word-wrap:break-word;word-break:break-all;"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-sm-6">
+                        <dl class="dl-horizontal">
+                            <dt>审核意见:</dt>
+                            <dd>
+                                <div data-detail-fetch="auditRemark"
+                                     style="word-wrap:break-word;word-break:break-all;"></div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div style="padding-bottom: 100px">&nbsp;</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<select id="new_channel" class="form-control input-sm" style="display: none"></select>
+
+<div id="orderAuditSuccess" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">订单审核</h4>
+            </div>
+            <div class="modal-body">
+                <form id="orderAuditSuccessForm" name="orderAuditSuccessForm" method="post">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>备注</label>
+                            <textarea name="remark" style="height: 100px;width:780px;" class="form-control input-sm"
+                                      maxlength="80"
+                                      placeholder="请输入审核意见不超过80个字" required></textarea>
+                            <div class="help-block with-errors text-red"></div>
+                        </div>
+                    </div>
+                    <div style="display: none">
+                        <input name="payNo"/>
+                        <input name="oid"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                <button id="orderAuditSuccessSubmit" type="button"
+                        class="btn btn-primary btn-submit orderAuditSuccessSubmit">确认
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="orderAuditFail" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">订单审核</h4>
+            </div>
+            <div class="modal-body">
+                <form id="orderAuditFailForm" name="orderAuditFailForm" method="post">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>备注</label>
+                            <textarea name="remark" style="height: 100px;width:780px;" class="form-control input-sm"
+                                      maxlength="80"
+                                      placeholder="请输入驳回原因不超过80个字" required></textarea>
+                            <div class="help-block with-errors text-red"></div>
+                        </div>
+                    </div>
+                    <div style="display: none">
+                        <input name="payNo"/>
+                        <input name="oid"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                <button id="orderAuditFailSubmit" type="button"
+                        class="btn btn-primary btn-submit orderAuditFailSubmit">确认
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

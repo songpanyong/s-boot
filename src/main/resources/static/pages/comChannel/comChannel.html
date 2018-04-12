@@ -1,0 +1,348 @@
+<!-- 操作按钮并排 -->
+<style>
+	.func-area {
+		width: 100px;
+	}
+</style>
+<!-- 页面头部 -->
+<section class="content-header">
+	<h1>
+    支付通道
+  </h1>
+	<ol class="breadcrumb">
+		<li>
+			<a href="javascript:void(0)"><i class="fa fa-dashboard"></i>支付通道管理</a>
+		</li>
+		<li class="active">支付通道</li>
+	</ol>
+</section>
+
+<!-- 主要内容 -->
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<!-- 主体Grid -->
+			<div class="box box-primary">
+				<!-- Grid头部 -->
+				<div class="box-header">
+					<h3 class="box-title">支付通道列表</h3>
+					<div class="box-tools">
+						<!--<button id="addFormConfig" class="btn btn-primary btn-sm">
+	              			<i class="fa fa-plus"></i> 支付通道
+	            		</button>-->
+					</div>
+				</div>
+				<!-- Grid内容体 -->
+				<div class="box-body">
+					<!-- 主体数据表格 -->
+					<table id="formTable" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>来源类型</th>
+								<th>通道名称</th>
+								<th>通道编号</th>
+								<th>业务类型</th>
+								<!--<th>业务类型描述</th>-->
+								<th>单笔金额下限</th>
+								<th>单笔金额上限</th>
+								<th>支付时效</th>
+								<th>费率计算方式</th>
+								<th>费率</th>
+								<!--<th>回盘速度</th>-->
+								<th>状态</th>
+								<!--<th>平台银行账号</th>-->
+								<th>商户身份ID</th>
+								<th>第三方产品编号</th>
+								<th>处理方式</th>
+								<!--<th>操作</th>-->
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- 配置新增弹窗 -->
+<div id="addFormModal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<!--<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">新增支付通道</h4>-->
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="addFormForm" name="addFormForm" method="post">
+					<input type="text" name="status" id="status_add" value="0" hidden>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>来源类型</label><span data-code="40005"></span>
+								<input name="sourceType" id="sourceType_add" type="text" class="form-control input-sm" placeholder="请输入来源系统" maxlength="20" required>
+								<span id="add_sourceType_err" style="color:red;"></span>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>通道名称</label>
+								<input name="channelName" id="channelName_add" type="text" class="form-control input-sm" placeholder="请输入通道名称" maxlength="32" required>
+								<span id="add_channelName_err" style="color:red;"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>通道编号</label>
+								<input name="channelNo" id="channelNo_add" type="text" class="form-control input-sm" placeholder="请输入通道编号" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="10" required>
+								<span id="add_channelNo_err" style="color:red;"></span>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>业务类型</label>
+								<select name="tradeType" class="form-control input-sm">
+									<option value="01">充值</option>
+									<option value="02">提现</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>单笔金额下限</label>
+								<input name="minAmount" id="minAmount_add" type="text" class="form-control input-sm" value="0.01" readonly="readonly" required>
+								<span id="add_minAmount_err" style="color:red;"></span>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>单笔金额上限</label>
+								<input name="maxAmount" id="maxAmount_add" type="text" class="form-control input-sm" placeholder="请输入单笔金额上限" onkeyup="value=value.replace(/[^\d.]/g,'')" maxlength="16" required>
+								<span id="add_maxAmount_err" style="color:red;"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>支付时效</label><span data-code="40009"></span>
+								<select name="paymentPrescription" class="form-control input-sm">
+									<option value="1">T+0</option>
+									<option value="2">T+1</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>费率计算方式</label>
+								<select name="rateCalclationMethod" id="rateCalclationMethod_add" class="form-control input-sm">
+									<option value="1">单笔收费</option>
+									<option value="2">比例收费</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>费率</label>
+								<input name="rate" id="rate_add" type="text" class="form-control input-sm" placeholder="请输入费率" onkeyup="value=value.replace(/[^\d.]/g,'')" required>
+								<span id="add_rate_err" style="color:red;"></span>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>商户身份ID</label>
+								<input name="merchantId" id="merchantId_add" type="text" class="form-control input-sm" placeholder="请输入商户身份ID" maxlength="32" required>
+								<span id="add_merchantId_err" style="color:red;"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>第三方产品编号</label>
+								<input name="productId" id="productId_add" type="text" class="form-control input-sm" placeholder="请输入第三方产品编号称" maxlength="32" required>
+								<span id="add_productId_err" style="color:red;"></span>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>处理方式</label>
+								<select name="treatmentMethod" class="form-control input-sm">
+									<option value="1">实时支付</option>
+									<!--<option value="2">人工</option>-->
+								</select>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button id="doAddForm" type="button" class="btn btn-primary btn-submit">确 定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 配置修改弹窗 -->
+<div id="attModify" class="modal fade attModify" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- 模态窗头部 -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">修改支付通道</h4>
+			</div>
+			<!-- 模态窗内容体 -->
+			<div class="modal-body">
+				<form id="formModify" name="formModify" method="post">
+					<input type="text" id="oid_" name="oid" hidden>
+					<input type="text" id="status_update" name="status" hidden>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>来源类型</label>
+								<input name="sourceType" id="sourceType_update" type="text" class="form-control input-sm" placeholder="请输入来源系统" maxlength="20" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" required>
+								<span id="update_sourceType_err" style="color:red;"></span>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>通道名称</label>
+								<input name="channelName" id="channelName_update" type="text" class="form-control input-sm" placeholder="请输入通道名称" maxlength="8" required>
+								<span id="update_channelName_err" style="color:red;"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>通道编号</label>
+								<input name="channelNo" id="channelNo_update" type="text" class="form-control input-sm" placeholder="请输入通道编号" onkeyup="value=value.replace(/[^\d]/g,'')" maxlength="3" required>
+								<span id="update_channelNo_err" style="color:red;"></span>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>业务类型</label>
+								<select name="tradeType" id="tradeType_update" class="form-control input-sm">
+									<option value="01">充值</option>
+									<option value="02">提现</option>
+									<!--<option value="03">鉴权</option>-->
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>单笔金额下限</label>
+								<input name="minAmount" id="minAmount_update" type="text" class="form-control input-sm" value="0.01" readonly="readonly" required>
+								<span id="update_minAmount_err" style="color:red;"></span>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>单笔金额上限</label>
+								<input name="maxAmount" id="maxAmount_update" type="text" class="form-control input-sm" placeholder="请输入单笔金额上限" onkeyup="value=value.replace(/[^\d.]/g,'')" maxlength="16" required>
+								<span id="update_maxAmount_err" style="color:red;"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>支付时效</label>
+								<select name="paymentPrescription" id="paymentPrescription_update" class="form-control input-sm">
+									<option value="1">T+0</option>
+									<option value="2">T+1</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>费率计算方式</label>
+								<select name="rateCalclationMethod" id="rateCalclationMethod_update" class="form-control input-sm">
+									<option value="1">单笔收费</option>
+									<option value="2">比例收费</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>费率</label>
+								<input name="rate" id="rate_update" type="text" class="form-control input-sm" placeholder="请输入费率" onkeyup="value=value.replace(/[^\d.]/g,'')" maxlength="10" required>
+								<span id="update_rate_err" style="color:red;"></span>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>商户身份ID</label>
+								<input name="merchantId" id="merchantId_update" type="text" class="form-control input-sm" placeholder="请输入商户身份ID" maxlength="32" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" required>
+								<span id="update_merchantId_err" style="color:red;"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>第三方产品编号</label>
+								<input name="productId" id="productId_update" type="text" class="form-control input-sm" placeholder="请输入第三方产品编号称" maxlength="32" onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" required>
+								<span id="update_productId_err" style="color:red;"></span>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label>处理方式</label>
+								<select name="treatmentMethod" id="treatmentMethod_update" class="form-control input-sm">
+									<option value="1">实时支付</option>
+									<!--<option value="2">人工</option>-->
+								</select>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- 模态窗底部 -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
+				<button type="button" class="btn btn-primary" id="btUpdate">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--确认提示框-->
+<div id="confirmModal" class="popover func-delete-popover">
+	<div class="arrow"></div>
+	<h3 class="popover-title"></h3>
+	<div class="popover-content">
+		<p></p>
+		<div class="popover-btn clearfix">
+			<div class="unit">
+				<button class="btn btn-block btn-primary accept" data-dismiss="modal">确 定</button>
+			</div>
+			<div class="unit" id="tips_cancle">
+				<button class="btn btn-block btn-default cancel" data-dismiss="modal">取 消</button>
+			</div>
+		</div>
+	</div>
+</div>
